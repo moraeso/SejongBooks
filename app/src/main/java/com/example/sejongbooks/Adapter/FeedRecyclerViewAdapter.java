@@ -132,7 +132,7 @@ public class FeedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                         item.setLike(item.getLike()-1);
                         ((ItemViewHolder) holder).m_textView_like.setText(String.valueOf(item.getLike()));
                         ((ItemViewHolder) holder).m_imageButton_like.setImageResource(R.drawable.heart_uncheck);
-                        connectNetworkLike("http://15011066.iptime.org:8888/api/likecancel/",item);
+                        connectNetworkLike("http://15011066.iptime.org:7000/api/likecancel/",item);
                     }
                     else{
                         item.setPic(true);
@@ -140,7 +140,7 @@ public class FeedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
                         ((ItemViewHolder) holder).m_textView_like.setText(String.valueOf(item.getLike()));
                         ((ItemViewHolder) holder).m_imageButton_like.setImageResource(R.drawable.heart);
                         Log.d("like",""+item.getLike());
-                        connectNetworkLike("http://15011066.iptime.org:8888/api/like/",item);
+                        connectNetworkLike("http://15011066.iptime.org:7000/api/like/",item);
                     }
                 }
             });
@@ -148,8 +148,6 @@ public class FeedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((ItemViewHolder) holder).m_imageView_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Toast.makeText(m_context, mountVO.getName(), Toast.LENGTH_SHORT).show();
-
                     Drawable drawable = ((ItemViewHolder) holder).m_imageView_image.getDrawable();
                     FullImagePopup fullImagePopup = new FullImagePopup(m_context, ((BitmapDrawable)drawable).getBitmap());
                     fullImagePopup.show();
@@ -159,8 +157,6 @@ public class FeedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((ItemViewHolder) holder).m_imageView_user_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Toast.makeText(m_context, mountVO.getName(), Toast.LENGTH_SHORT).show();
-
                     Drawable drawable = ((ItemViewHolder) holder).m_imageView_user_image.getDrawable();
                     FullImagePopup fullImagePopup = new FullImagePopup(m_context, ((BitmapDrawable)drawable).getBitmap());
                     fullImagePopup.show();

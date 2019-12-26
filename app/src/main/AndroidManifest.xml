@@ -20,7 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".item_pid"></activity>
+        <activity
+            android:name=".Activity.FeedWriteActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.IntroActivity"
             android:screenOrientation="portrait" />

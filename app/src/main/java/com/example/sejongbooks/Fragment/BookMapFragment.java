@@ -2,6 +2,7 @@ package com.example.sejongbooks.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -21,11 +22,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.sejongbooks.Activity.FeedWriteActivity;
+import com.example.sejongbooks.Activity.SignUpActivity;
 import com.example.sejongbooks.Adapter.FeedRecyclerViewAdapter;
 import com.example.sejongbooks.Listener.AsyncCallback;
 import com.example.sejongbooks.R;
 import com.example.sejongbooks.ServerConnect.PostHttpURLConnection;
 import com.example.sejongbooks.VO.FeedVO;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +55,8 @@ public class BookMapFragment extends Fragment implements SwipeRefreshLayout.OnRe
     private String m_url;
 
     private CheckTypesTask loading;
+
+    private FloatingActionButton btn_floating;
 
     @Nullable
     @Override
@@ -136,6 +143,16 @@ public class BookMapFragment extends Fragment implements SwipeRefreshLayout.OnRe
         // 새로고침
         m_swipeRefreshLayout =  view.findViewById(R.id.swipeContainer);
         m_swipeRefreshLayout.setOnRefreshListener(this);
+
+        btn_floating = view.findViewById(R.id.btn_floating);
+        btn_floating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("smh:click","111");
+                Intent intent = new Intent(getContext(), FeedWriteActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -289,22 +306,22 @@ public class BookMapFragment extends Fragment implements SwipeRefreshLayout.OnRe
         Log.d("mmee:ReviewActivity", "Get review image");
     }
 
-    public void getUserImage(FeedVO newReview) {
+    public void getUserImage(FeedVO newFeed) {
         InputStream is = null;
         try {
-            String userImg_url = "http://15011066.iptime.org:8888/userimages/" + newReview.getUserId() + ".jpg";
+            String userImg_url = "http://15011066.iptime.org:7000/" + newFeed.getUserId() + ".jpg";
             is = (InputStream) new URL(userImg_url).getContent();
 
         } catch (IOException e) {
             Drawable drawable = getResources().getDrawable(R.drawable.ic_book_ranking_main);
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-            newReview.setUserImage(bitmap);
+            newFeed.setUserImage(bitmap);
             e.printStackTrace();
             return;
         }
 
-        Drawable user_drawable = Drawable.createFromStream(is, "book" + newReview.getUserId());
-        newReview.setUserImage(((BitmapDrawable) user_drawable).getBitmap());
+        Drawable user_drawable = Drawable.createFromStream(is, "book" + newFeed.getUserId());
+        newFeed.setUserImage(((BitmapDrawable) user_drawable).getBitmap());
         Log.d("mmee:ReviewActivity", "Get user image");
 
     }
