@@ -258,6 +258,15 @@
                     android:orientation="horizontal">
 
                     <Button
+                        android:id="@+id/btn_problem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/box_round_main"
+                        android:text="경시대회"
+                        android:textColor="@color/colorWhite" />
+
+                    <Button
                         android:id="@+id/btn_read"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

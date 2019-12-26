@@ -48,6 +48,8 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
     private Button readBtn;
     private Boolean isRead;
 
+    private Button problemBtn;
+
     private ImageView m_iv_bookThumbnail;
     private ImageButton closeButton;
 
@@ -139,7 +141,6 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
         errDialog = new ConfirmDialog(this);
 
         readBtn = (Button) this.findViewById(R.id.btn_read);
-
         if (!m_book.isRead()) {
             m_iv_isRead.setVisibility(View.INVISIBLE);
             isRead = false;
@@ -151,6 +152,14 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
         }
         readBtn.setText("인증 : " + m_book.getCount());
 
+        problemBtn = (Button) this.findViewById(R.id.btn_problem);
+        if (m_book.getProblem() == 0) {
+            problemBtn.setEnabled(false);
+            problemBtn.setBackground(getResources().getDrawable(R.drawable.box_round_main));
+        } else {
+            problemBtn.setBackground(getResources().getDrawable(R.drawable.box_round_main_full));
+        }
+
         reviewWriteButton = (Button) this.findViewById(R.id.btn_writeReview);
         reviewEnterButton = (Button) this.findViewById(R.id.btn_enterReview);
 
@@ -160,6 +169,7 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
 
     private void initListener() {
         readBtn.setOnClickListener(this);
+        problemBtn.setOnClickListener(this);
         m_iv_bookThumbnail.setOnClickListener(this);
         closeButton.setOnClickListener(this);
         reviewWriteButton.setOnClickListener(this);
@@ -185,6 +195,13 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
                 }
                 break;
 
+            case R.id.btn_problem:
+                Intent intent = new Intent(v.getContext(), ProblemActivity.class);
+                intent.putExtra("BookID", Integer.toString(m_book.getID()));
+
+                startActivity(intent);
+                break;
+
             case R.id.iv_bookThumbnail:
                 FullImagePopup fullImagePopup = new FullImagePopup(BookDetailActivity.this, m_book.getImage());
                 fullImagePopup.show();
@@ -195,16 +212,16 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
                 break;
 
             case R.id.btn_writeReview:
-                Intent intent = new Intent(v.getContext(), ReviewWriteActivity.class);
+                Intent intent2 = new Intent(v.getContext(), ReviewWriteActivity.class);
                 Log.d("bookID", "" + m_book.getID());
-                intent.putExtra("bookID", "" + m_book.getID());
-                startActivity(intent);
+                intent2.putExtra("bookID", "" + m_book.getID());
+                startActivity(intent2);
                 break;
             case R.id.btn_enterReview:
-                Intent intent2 = new Intent(v.getContext(),ReviewActivity.class);
+                Intent intent3 = new Intent(v.getContext(),ReviewActivity.class);
                 Log.d("bookID",""+m_book.getID());
-                intent2.putExtra("bookID",""+m_book.getID());
-                startActivity(intent2);
+                intent3.putExtra("bookID",""+m_book.getID());
+                startActivity(intent3);
                 overridePendingTransition(R.anim.anim_slide_in_bottom,R.anim.anim_slide_out_top);
                 break;
         }

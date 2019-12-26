@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:padding="5dp"
     app:cardBackgroundColor="@color/colorWhite"
     app:cardCornerRadius="1dp"
     app:cardElevation="20dp">
@@ -21,6 +22,7 @@
             android:layout_height="150dp"
             android:adjustViewBounds="true"
             android:layout_gravity="center"
+            android:layout_marginTop="3dp"
             android:layout_marginBottom="5dp"
             android:scaleType="fitCenter"
             android:src="@drawable/book_sample" />

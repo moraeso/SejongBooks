@@ -68,7 +68,9 @@ public class BookListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             ((BookListViewHolder) holder).tv_bookPage.setText(Integer.toString(bookVO.getPage()) + "쪽");
             ((BookListViewHolder) holder).tv_bookGrade.setText(Float.toString(bookVO.getGrade()));
             ((BookListViewHolder) holder).tv_bookReadCount.setText("총 " + Integer.toString(bookVO.getCount()) + "회");
-
+            if (bookVO.getProblem() == 1) {
+                //((BookListViewHolder) holder).layout_bookPanel.setBackgroundResource(R.drawable.cardview_border);
+            }
             if (bookVO.isRead()) {
                 ((BookListViewHolder) holder).iv_isRead.setVisibility(View.VISIBLE);
             } else {

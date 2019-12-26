@@ -15,7 +15,7 @@ public class BookListRecyclerViewDecoration extends RecyclerView.ItemDecoration 
     public BookListRecyclerViewDecoration(Activity mActivity) {
         spanCount = 2;
         spacing = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                12, mActivity.getResources().getDisplayMetrics());
+                8, mActivity.getResources().getDisplayMetrics());
         outerMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 5, mActivity.getResources().getDisplayMetrics());
     }
@@ -30,7 +30,6 @@ public class BookListRecyclerViewDecoration extends RecyclerView.ItemDecoration 
 
         outRect.left = column * spacing / spanCount;
         outRect.right = spacing - (column + 1) * spacing / spanCount;
-        outRect.bottom = spacing;
         outRect.bottom = spacing;
 
         if (row != lastRow) {
