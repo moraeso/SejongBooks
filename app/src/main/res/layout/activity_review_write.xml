@@ -56,7 +56,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="산은 어떠셨나요?"
+        android:text="책에 대한 간단한 리뷰를 작성해주세요."
         android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
@@ -77,7 +77,7 @@
     <EditText
         android:id="@+id/editText_review"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="200dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="30dp"
@@ -102,27 +102,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
-
-        <ImageButton
-            android:id="@+id/btn_review_imageButton"
-            style="@android:style/Widget.ImageButton"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="20dp"
-            android:scaleType="centerInside"
-            android:background="@drawable/box_round_gray" />
-
-        <ImageView
-            android:id="@+id/img_add_write"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_add_write" />
-
-    </RelativeLayout>
+        android:layout_weight="1"/>
 
 </LinearLayout>

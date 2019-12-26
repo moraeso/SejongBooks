@@ -151,17 +151,6 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 }
             });
 
-            ((ItemViewHolder) holder).m_imageView_image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //Toast.makeText(m_context, bookVO.getName(), Toast.LENGTH_SHORT).show();
-
-                    Drawable drawable = ((ItemViewHolder) holder).m_imageView_image.getDrawable();
-                    FullImagePopup fullImagePopup = new FullImagePopup(m_context, ((BitmapDrawable)drawable).getBitmap());
-                    fullImagePopup.show();
-                }
-            });
-
             ((ItemViewHolder) holder).m_imageView_user_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -241,7 +230,6 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         TextView m_textView_like; // review how many people like review
         TextView m_textView_book_name;
         ImageView m_imageView_user_image;
-        ImageView m_imageView_image; // review main image
         ImageButton m_imageButton_like;
 
         RatingBar m_ratingbar_grade;
@@ -255,7 +243,6 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             m_textView_book_name = itemView.findViewById(R.id.txt_book_name_review);
 
             m_imageView_user_image = itemView.findViewById(R.id.iv_review_user_profile);
-            m_imageView_image = itemView.findViewById(R.id.iv_review_image);
             m_imageButton_like = itemView.findViewById(R.id.btn_review_heart_button);
             m_ratingbar_grade = itemView.findViewById(R.id.rb_review_grade);
         }
@@ -265,8 +252,8 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             m_textView_coment.setText(item.getCotent());
             m_textView_like.setText(String.valueOf(item.getLike()));
             for(BookVO book : BookManager.getInstance().getItems()){
-                if(book.getID() == item.getMntID()){
-                    m_textView_book_name.setText(String.valueOf(item.getMntID()));
+                if(book.getID() == item.getBookID()){
+                    m_textView_book_name.setText(String.valueOf(item.getBookID()));
                     m_textView_book_name.setText(book.getName());
                 }
             }
@@ -281,14 +268,6 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             }
 
             //m_imageView_image.setImageResource(R.drawable.heart);
-            m_imageView_image.setImageBitmap(item.getImage());
-            Log.d("mmee:ReviewAdapter","m_imageView_image2 : " + item.getImage().toString());
-            if(m_imageView_user_image != null) {
-                m_imageView_user_image.setBackground(new ShapeDrawable(new OvalShape()));
-                if (Build.VERSION.SDK_INT >= 21) {
-                    m_imageView_user_image.setClipToOutline(true);
-                }
-            }
             m_imageView_user_image.setImageBitmap(item.getUserImage());
         }
     }
