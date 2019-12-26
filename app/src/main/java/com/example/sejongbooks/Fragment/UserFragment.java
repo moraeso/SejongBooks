@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -66,7 +67,9 @@ public class UserFragment extends Fragment implements BookReadListRecyclerViewAd
 
     private SwipeRefreshLayout m_swipeRefresh;
 
-    private TextView txtCount1, txtCount2, txtTotalPages;
+    private TextView tv_type1, tv_type2, tv_type3, tv_type4, tv_bookCount;
+    private TextView tv_type1_pass, tv_type2_pass, tv_type3_pass, tv_type4_pass;
+
     private int m_count=0;
     private int m_totalPages=0;
 
@@ -75,12 +78,7 @@ public class UserFragment extends Fragment implements BookReadListRecyclerViewAd
     private TextView txtID, txtLevel;
     private ImageView imgProfile;
 
-    private String userID, userPW, userPIC;
-    private int exp;
-    private Drawable userDrawable;
     private View vExp;
-
-    private String m_url;
 
     @Nullable
     @Override
@@ -104,9 +102,15 @@ public class UserFragment extends Fragment implements BookReadListRecyclerViewAd
         m_adapter = new BookReadListRecyclerViewAdapter(getContext(), this);
         m_bookRecycleView.setAdapter(m_adapter);
 
-        txtCount1 = view.findViewById(R.id.txt_count_1_user);
-        txtCount2 = view.findViewById(R.id.txt_count_2_user);
-        txtTotalPages = view.findViewById(R.id.txt_page_user);
+        tv_bookCount = view.findViewById(R.id.tv_bookCount);
+        tv_type1 = view.findViewById(R.id.tv_type1);
+        tv_type2 = view.findViewById(R.id.tv_type2);
+        tv_type3 = view.findViewById(R.id.tv_type3);
+        tv_type4 = view.findViewById(R.id.tv_type4);
+        tv_type1_pass = view.findViewById(R.id.tv_type1_pass);
+        tv_type2_pass = view.findViewById(R.id.tv_type2_pass);
+        tv_type3_pass = view.findViewById(R.id.tv_type3_pass);
+        tv_type4_pass = view.findViewById(R.id.tv_type4_pass);
 
         btnMyReview = view.findViewById(R.id.btn_user_my_review);
         btnLikeReview = view.findViewById(R.id.btn_user_like_review);
@@ -114,10 +118,8 @@ public class UserFragment extends Fragment implements BookReadListRecyclerViewAd
         btnMyReview.setOnClickListener(this);
         btnLikeReview.setOnClickListener(this);
 
-        txtID = view.findViewById(R.id.txt_id_user);
-        txtLevel = view.findViewById(R.id.txt_level_user);
         imgProfile = view.findViewById(R.id.img_profile_user);
-        vExp = view.findViewById(R.id.view_exp_user);
+        //vExp = view.findViewById(R.id.view_exp_user);
 
         // 새로고침
         m_swipeRefresh = view.findViewById(R.id.swipeRefresh_bookList);
@@ -135,6 +137,7 @@ public class UserFragment extends Fragment implements BookReadListRecyclerViewAd
     }
 
 
+    /*
 
     final Handler handlerImg = new Handler()
     {
@@ -184,10 +187,14 @@ public class UserFragment extends Fragment implements BookReadListRecyclerViewAd
             MyInfo.getInstance().getUser().setTotalPages(m_totalPages);
         }
 
-    };
+    };*/
 
     public void loadUserReadData() {
-        m_count = 0;
+        int totalCount = 0;
+        int countType1 = 0;
+        int countType2 = 0;
+        int countType3 = 0;
+        int countType4 = 0;
         m_totalPages = 0;
 
         ArrayList<BookVO> bookList = BookManager.getInstance().getItems();
@@ -195,15 +202,51 @@ public class UserFragment extends Fragment implements BookReadListRecyclerViewAd
         for (int i = 0; i < bookList.size(); i++) {
             if(bookList.get(i).isRead()) {
                 m_bufferItems.add(BookManager.getInstance().getItems().get(i));
-                m_count++;
                 m_totalPages+=BookManager.getInstance().getItems().get(i).getPage();
+
+                if (bookList.get(i).getType().equals("서양의 역사와 사상")) {
+                    countType1++;
+                } else if (bookList.get(i).getType().equals("동양의 역사와 사상")) {
+                    countType2++;
+                } else if (bookList.get(i).getType().equals("동서양의 문학")) {
+                    countType3++;
+                } else if (bookList.get(i).getType().equals("과학 사상")) {
+                    countType4++;
+                }
+                totalCount++;
             }
         }
         m_adapter.addAll(m_bufferItems);
 
-        txtCount1.setText(String.valueOf(m_count)+"권");
-        txtCount2.setText(String.valueOf(m_count));
-        txtTotalPages.setText(String.valueOf(m_totalPages)+"쪽");
+        tv_type1.setText(String.valueOf(countType1)+"권 / 4권");
+        tv_type2.setText(String.valueOf(countType2)+"권 / 3권");
+        tv_type3.setText(String.valueOf(countType3)+"권 / 2권");
+        tv_type4.setText(String.valueOf(countType4)+"권 / 1권");
+
+        if (countType1 < 4) {
+            tv_type1_pass.setText("불");
+            tv_type1_pass.setTextColor(ContextCompat.getColor(getContext(), R.color.colorMain));
+        }
+        else { tv_type1_pass.setText("합");
+            tv_type1_pass.setTextColor(ContextCompat.getColor(getContext(), R.color.colorGreen)); }
+
+        if (countType2 < 3) { tv_type2_pass.setText("불");
+            tv_type2_pass.setTextColor(ContextCompat.getColor(getContext(), R.color.colorMain)); }
+        else { tv_type2_pass.setText("합");
+            tv_type2_pass.setTextColor(ContextCompat.getColor(getContext(), R.color.colorGreen)); }
+
+        if (countType3 < 2) { tv_type3_pass.setText("불");
+            tv_type3_pass.setTextColor(ContextCompat.getColor(getContext(), R.color.colorMain)); }
+        else { tv_type3_pass.setText("합");
+            tv_type3_pass.setTextColor(ContextCompat.getColor(getContext(), R.color.colorGreen)); }
+
+        if (countType4 < 1) { tv_type4_pass.setText("불");
+            tv_type4_pass.setTextColor(ContextCompat.getColor(getContext(), R.color.colorMain)); }
+        else { tv_type4_pass.setText("합");
+            tv_type4_pass.setTextColor(ContextCompat.getColor(getContext(), R.color.colorGreen)); }
+
+
+        tv_bookCount.setText(String.valueOf(totalCount));
     }
 
 

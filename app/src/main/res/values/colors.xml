@@ -12,6 +12,7 @@
     <color name="colorBlack">#000000</color>
     <color name="colorGold">#FFCC33</color>
     <color name="colorMain">#c3002f</color>
+    <color name="colorGreen">#33813f</color>
     <color name="colorMainLight">#d9abb6</color>
     <color name="transparent">#00ffffff</color>
 </resources>

@@ -286,7 +286,7 @@
                 <RelativeLayout
                     android:id="@+id/map_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp">
+                    android:layout_height="100dp">
 
                     <ImageView
                         android:id="@+id/transparent_image"
