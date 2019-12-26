@@ -65,11 +65,11 @@ public class LikeReviewActivity extends AppCompatActivity implements SwipeRefres
         setContentView(R.layout.activity_like_review);
 
         initView();
-        m_url = "http://15011066.iptime.org:8888/api/likelist";
+        m_url = "http://15011066.iptime.org:7000/review/mylike/";
 
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put("id", MyInfo.getInstance().getUser().getID());
+        contentValues.put("userID", MyInfo.getInstance().getUser().getID());
 
         NetworkTask networkTask = new NetworkTask(m_url, contentValues, new AsyncCallback() {
             @Override
@@ -231,6 +231,9 @@ public class LikeReviewActivity extends AppCompatActivity implements SwipeRefres
 
     public void receiveReview(String result){
         try {
+            JSONObject jsonObject = new JSONObject(result);
+            result = jsonObject.getString("result");
+
             JSONArray jsonArray = new JSONArray(result);
             Log.d("smh:length",""+jsonArray.length());
 
@@ -251,10 +254,10 @@ public class LikeReviewActivity extends AppCompatActivity implements SwipeRefres
                 String reviewString = jsonObj.getString("reviewString");
                 Double reviewStar = jsonObj.getDouble("reviewStar");
                 int reviewLike = jsonObj.getInt("LIKECOUNT");
-                Boolean reviewIFLIKE = jsonObj.getBoolean("IFLIKE");
+                int reviewIFLIKE = jsonObj.getInt("IFLIKE");
                 final ReviewVO newReview = new ReviewVO();
 
-                newReview.setReview(reviewID, reviewUserID, reviewBookID, reviewString, reviewStar, reviewLike, reviewIFLIKE);
+                newReview.setReview(reviewID, reviewUserID, reviewBookID, reviewString, reviewStar, reviewLike, true);
 
                 getUserImage(newReview);
 
@@ -268,11 +271,11 @@ public class LikeReviewActivity extends AppCompatActivity implements SwipeRefres
     public void getUserImage(ReviewVO newReview) {
         InputStream is = null;
         try {
-            String userImg_url = "http://15011066.iptime.org:8888/userimages/" + newReview.getUserId() + ".jpg";
+            String userImg_url = "http://15011066.iptime.org:7000/user/image/" + newReview.getUserId() + ".jpg";
             is = (InputStream) new URL(userImg_url).getContent();
 
         } catch (IOException e) {
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_book_ranking_main);
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_user_main);
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
             newReview.setUserImage(bitmap);
             e.printStackTrace();

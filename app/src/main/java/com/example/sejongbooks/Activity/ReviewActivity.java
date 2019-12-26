@@ -284,11 +284,11 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
     public void getUserImage(ReviewVO newReview) {
         InputStream is = null;
         try {
-            String userImg_url = "http://15011066.iptime.org:7000/userimages/" + newReview.getUserId() + ".jpg";
+            String userImg_url = "http://15011066.iptime.org:7000/user/image/" + newReview.getUserId() + ".jpg";
             is = (InputStream) new URL(userImg_url).getContent();
 
         } catch (IOException e) {
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_book_ranking_main);
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_user_main);
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
             newReview.setUserImage(bitmap);
             e.printStackTrace();
@@ -298,7 +298,6 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
         Drawable user_drawable = Drawable.createFromStream(is, "book" + newReview.getUserId());
         newReview.setUserImage(((BitmapDrawable) user_drawable).getBitmap());
         Log.d("mmee:ReviewActivity", "Get user image");
-
     }
 
     @Override
