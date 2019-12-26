@@ -68,10 +68,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private void postSignUp() {
         ContentValues values = new ContentValues();
-        values.put("id", editID.getText().toString());
-        values.put("pw", editPass.getText().toString());
+        values.put("userID", editID.getText().toString());
+        values.put("userPW", editPass.getText().toString());
 
-        String url = Constant.URL + "/api/register";
+        String url = Constant.URL + "/user/register";
 
         SignUpTask signUpTask = new SignUpTask(url, values, new AsyncCallback() {
             @Override

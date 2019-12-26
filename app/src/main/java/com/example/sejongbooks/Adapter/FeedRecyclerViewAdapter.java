@@ -262,7 +262,6 @@ public class FeedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
             //m_imageView_image.setImageResource(R.drawable.heart);
             m_imageView_image.setImageBitmap(item.getImage());
-            Log.d("mmee:ReviewAdapter","m_imageView_image2 : " + item.getImage().toString());
             if(m_imageView_user_image != null) {
                 m_imageView_user_image.setBackground(new ShapeDrawable(new OvalShape()));
                 if (Build.VERSION.SDK_INT >= 21) {

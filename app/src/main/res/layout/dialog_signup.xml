@@ -8,7 +8,7 @@ android:layout_height="match_parent">
         android:layout_height="120dp"
         android:gravity="center"
         android:lineSpacingExtra="10dp"
-        android:text="Hello, Book! \n가입을 축하드립니다!" />
+        android:text="고독한 세종인!\n회원가입에 성공하였습니다!" />
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -21,7 +21,7 @@ android:layout_height="match_parent">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@color/colorPrimary"
+        android:background="@color/colorMain"
         android:text="확인"
         android:textColor="#FFF" />
 </LinearLayout>

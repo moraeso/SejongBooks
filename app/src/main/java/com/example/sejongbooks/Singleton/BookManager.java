@@ -141,6 +141,13 @@ public class BookManager {
                     }
                 }
             });
+        } else if (str.equals("인증 순")) {
+            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
+                @Override
+                public int compare(BookVO o1, BookVO o2) {
+                   return 0;
+                }
+            });
         }
     }
 }

@@ -53,7 +53,10 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
     private BookListRecyclerViewAdapter m_adapter;
     private SwipeRefreshLayout m_swipeRefresh;
     private Spinner m_sortSpinner;
+    private Spinner m_sortSpinnerType;
     private EditText m_et_bookSearch;
+    private String selectedBookType;
+    private int typeFilteringNum;
 
     private ArrayList<BookVO> m_bufferItems; // 버퍼로 사용할 리스트
 
@@ -97,6 +100,9 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
                 }
             }
         });
+
+
+        typeFilteringNum = BookManager.getInstance().getItems().size();
 
         /*
         ArrayList<BookVO> bookList = BookManager.getInstance().getItems();
@@ -142,32 +148,10 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
             }
         });
 
+        initFilterSpinner(view);
+        initSortSpinner(view);
 
-        m_sortSpinner = (Spinner) view.findViewById(R.id.spinner_bookSort);
-
-        String[] spinnerArray = getResources().getStringArray(R.array.book_sort);
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
-                BookListFragment.super.getContext(), R.layout.spinner_item, spinnerArray);
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        m_sortSpinner.setAdapter(spinnerArrayAdapter);
-
-        m_sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                // 왜 자꾸 자동으로 실행되는지
-                Log.d("mmee:BookListFragment", "BookList 정렬");
-                BookManager.getInstance().sortBookList(adapterView.getItemAtPosition(i).toString());
-                loadFirstData();
-                m_bookRecycleView.smoothScrollToPosition(0);
-                //m_adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-        //sortBookList(m_sortSpinner.getSelectedItem().toString());
+        loadFirstData();
 /*
         // User 등반 리스트 갱신
         String url_userClimbedList = Constant.URL + "/book/list";
@@ -213,6 +197,64 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
         return view;
     }
 
+    private void initFilterSpinner(View view) {
+
+        m_sortSpinnerType = (Spinner) view.findViewById(R.id.spinner_bookSort_type);
+
+        String[] spinnerArray = getResources().getStringArray(R.array.book_sort_type);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+                BookListFragment.super.getContext(), R.layout.spinner_item, spinnerArray);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        m_sortSpinnerType.setAdapter(spinnerArrayAdapter);
+
+        m_sortSpinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                // 왜 자꾸 자동으로 실행되는지
+                Log.d("mmee:BookListFragment", "BookListType 정렬");
+                selectedBookType = adapterView.getItemAtPosition(i).toString();
+                reloadFirstData(selectedBookType);
+                m_bookRecycleView.smoothScrollToPosition(0);
+                //m_adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
+    private void initSortSpinner(View view) {
+
+        m_sortSpinner = (Spinner) view.findViewById(R.id.spinner_bookSort);
+
+        String[] spinnerArray = getResources().getStringArray(R.array.book_sort);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+                BookListFragment.super.getContext(), R.layout.spinner_item, spinnerArray);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        m_sortSpinner.setAdapter(spinnerArrayAdapter);
+
+        m_sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                // 왜 자꾸 자동으로 실행되는지
+                Log.d("mmee:BookListFragment", "BookList 정렬");
+                reloadFirstData(selectedBookType);
+                BookManager.getInstance().sortBookList(adapterView.getItemAtPosition(i).toString());
+                m_bookRecycleView.smoothScrollToPosition(0);
+                //m_adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        //sortBookList(m_sortSpinner.getSelectedItem().toString());
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -233,7 +275,8 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
                 m_et_bookSearch.setText("");
                 BookManager.getInstance().sortBookList(m_sortSpinner.getSelectedItem().toString());
 
-                loadFirstData();
+                reloadFirstData(selectedBookType);
+
                 m_bookRecycleView.smoothScrollToPosition(0);
                 //m_adapter.notifyDataSetChanged();
             }
@@ -251,18 +294,12 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
                 // 목록 10개 추가
                 int start = m_adapter.getItemCount() - 1;
                 int end = start + 10;
-                if (end > bookList.size()) {
-                    end = bookList.size();
+                if (end > typeFilteringNum - 1) {
+                    end = typeFilteringNum - 1;
                 }
 
                 m_bufferItems.clear();
                 for (int i = start; i < end; i++) {
-                    if (bookList.get(i).getImage() == null) {
-                        int id = bookList.get(i).getID();
-                        String url_img = Constant.URL + "/basicImages/" + id + ".jpg";
-                        bookList.get(i).setImage(BookManager.getInstance().getBookBitmapFromURL(url_img, "book" + id));
-                        Log.d("mmee:loadMore", "get book resource " + id);
-                    }
                     m_bufferItems.add(bookList.get(i));
                 }
                 // 1초 sleep
@@ -308,84 +345,29 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
         bookImageTask.execute();
     }
 
-    public void sortBookList(String str, boolean isRefresh) {
-        /*
-        Log.d("mmee:BookListFragment", "spinner changed : " + str);
+    private void reloadFirstData(final String str_filter) {
+        Log.d("mmee:BookListFragment", "ReloadFirstData");
+        BookImageTask bookImageTask = new BookImageTask(Constant.FIRST_TEN, new AsyncCallback() {
+            @Override
+            public void onSuccess(Object object) {
 
-        if (str.equals("별점 순")) {
-            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
-                @Override
-                public int compare(BookVO o1, BookVO o2) {
-                    if (o1.getGrade() < o2.getGrade()) {
-                        return 1;
-                    } else if (o1.getGrade() > o2.getGrade()) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
+                // 이미지 10개 view 출력
+                m_bufferItems.clear();
+                for (int i = 0; i < 10; i++) {
+                    m_bufferItems.add(BookManager.getInstance().getItems().get(i));
                 }
-            });
-        } else if (str.equals("가까운 순")) {
-            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
-                @Override
-                public int compare(BookVO o1, BookVO o2) {
-                    if (o1.getDistance() > o2.getDistance()) {
-                        return 1;
-                    } else if (o1.getDistance() < o2.getDistance()) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
+                m_adapter.addAll(m_bufferItems);
+                if (str_filter != null && !str_filter.equals("전체")) {
+                    bookFilterType(str_filter);
                 }
-            });
-        } else if (str.equals("높은 순")) {
-            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
-                @Override
-                public int compare(BookVO o1, BookVO o2) {
-                    if (o1.getHeight() < o2.getHeight()) {
-                        return 1;
-                    } else if (o1.getHeight() > o2.getHeight()) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                }
-            });
-        } else if (str.equals("낮은 순")) {
-            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
-                @Override
-                public int compare(BookVO o1, BookVO o2) {
-                    if (o1.getHeight() > o2.getHeight()) {
-                        return 1;
-                    } else if (o1.getHeight() < o2.getHeight()) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                }
-            });
-        } else if (str.equals("가나다 순")) {
-            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
-                @Override
-                public int compare(BookVO o1, BookVO o2) {
-                    if (o1.getName().toString().
-                            compareTo(o2.getName().toString()) > 0) {
-                        return 1;
-                    } else if (o1.getName().toString().
-                            compareTo(o2.getName().toString()) < 0) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                }
-            });
-        }*/
+            }
 
-        if (isRefresh) {
-            loadFirstData();
-            m_bookRecycleView.smoothScrollToPosition(0);
-            m_adapter.notifyDataSetChanged();
-        }
+            @Override
+            public void onFailure(Exception e) {
+
+            }
+        });
+        bookImageTask.execute();
     }
 
 
@@ -397,6 +379,20 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
                 filterItems.add(item);
             }
         }
+        m_adapter.filterList(filterItems);
+    }
+
+    private void bookFilterType(String text) {
+        ArrayList<BookVO> filterItems = new ArrayList();
+
+        int cnt = 0;
+        for (BookVO item : BookManager.getInstance().getItems()) {
+            if (item.getType().toLowerCase().contains(text.toLowerCase())) {
+                filterItems.add(item);
+                cnt++;
+            }
+        }
+        typeFilteringNum = cnt;
         m_adapter.filterList(filterItems);
     }
 
