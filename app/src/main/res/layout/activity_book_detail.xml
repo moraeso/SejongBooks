@@ -20,7 +20,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:text="OO산"
+            android:text="OOO"
             android:textSize="20dp" />
 
         <ImageButton
@@ -165,10 +165,10 @@
 
                         <ImageView
                             android:id="@+id/img_isClimbed"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="right"
-                            android:src="@drawable/ic_flag_isclimbed" />
+                            android:src="@drawable/ic_flag_isread" />
 
                     </LinearLayout>
 
