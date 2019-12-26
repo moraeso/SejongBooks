@@ -54,7 +54,7 @@ public class MyReviewActivity extends AppCompatActivity implements SwipeRefreshL
     private Button btn_reviewExit;
 
     private String m_url;
-    private String m_mountID;
+    private String m_bookID;
 
     private TextView txtNull;
 
@@ -281,14 +281,14 @@ public class MyReviewActivity extends AppCompatActivity implements SwipeRefreshL
             //Log.d("mmee:ReviewActivity", "url : " + reviewImg_url + "\nininputStream : " + is.toString());
             is = (InputStream) new URL(reviewImg_url).getContent();
         } catch (IOException e) {
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_mountain_ranking_main);
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_book_ranking_main);
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
             newReview.setImage(bitmap);
             e.printStackTrace();
             return;
         }
 
-        Drawable review_drawable = Drawable.createFromStream(is, "mount" + newReview.getReivewID());
+        Drawable review_drawable = Drawable.createFromStream(is, "book" + newReview.getReivewID());
         newReview.setImage(((BitmapDrawable) review_drawable).getBitmap());
         Log.d("mmee:ReviewActivity", "Get review image");
     }
@@ -300,14 +300,14 @@ public class MyReviewActivity extends AppCompatActivity implements SwipeRefreshL
             is = (InputStream) new URL(userImg_url).getContent();
 
         } catch (IOException e) {
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_mountain_ranking_main);
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_book_ranking_main);
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
             newReview.setUserImage(bitmap);
             e.printStackTrace();
             return;
         }
 
-        Drawable user_drawable = Drawable.createFromStream(is, "mount" + newReview.getUserId());
+        Drawable user_drawable = Drawable.createFromStream(is, "book" + newReview.getUserId());
         newReview.setUserImage(((BitmapDrawable) user_drawable).getBitmap());
         Log.d("mmee:ReviewActivity", "Get user image");
     }

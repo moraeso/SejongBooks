@@ -26,7 +26,7 @@ import com.example.sejongbooks.Model.User;
 import com.example.sejongbooks.Popup.ConfirmDialog;
 import com.example.sejongbooks.R;
 import com.example.sejongbooks.ServerConnect.LoginTask;
-import com.example.sejongbooks.Singleton.MountManager;
+import com.example.sejongbooks.Singleton.BookManager;
 import com.example.sejongbooks.Singleton.MyInfo;
 
 
@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         initUser();
-        if (MountManager.getInstance().getItems().isEmpty()) {
+        if (BookManager.getInstance().getItems().isEmpty()) {
             Intent intent = new Intent(this, IntroActivity.class);
             startActivity(intent);
         }
@@ -58,12 +58,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         initView();
         initListener();
 
-        //loadMountData();
+        //loadBookData();
 
         backPressCloseHandler = new BackPressCloseHandler(this);
 
         connectNetwork();
-        // postToken 내부에서 postMountList, initListener, callback으로 순차적 실행
+        // postToken 내부에서 postBookList, initListener, callback으로 순차적 실행
 
     }
 
@@ -275,15 +275,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     /*
-    private void loadMountData() {
+    private void loadBookData() {
         // 산 URL 설정
         String url = Constant.URL + "/api/mntall";
 
         // execute, 산 리스트 생성 및 저장
-        MountTask mountTask = new MountTask(Constant.GET_NEW, url, null, new AsyncCallback() {
+        BookTask bookTask = new BookTask(Constant.GET_NEW, url, null, new AsyncCallback() {
             @Override
             public void onSuccess(Object object) {
-                Log.d("mmee:mountTask", "get mount resource success!");
+                Log.d("mmee:bookTask", "get book resource success!");
             }
 
             @Override
@@ -291,7 +291,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 //e.printStackTrace();
             }
         });
-        mountTask.execute();
+        bookTask.execute();
     }
     */
 }

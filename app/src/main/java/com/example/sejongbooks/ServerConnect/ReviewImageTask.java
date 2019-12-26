@@ -38,7 +38,7 @@ public class ReviewImageTask extends AsyncTask<Void, Void, Void> {
             String review_img = reviewImageUrl + m_review.getImageName();
             InputStream is_review = (InputStream) new URL(review_img).getContent();
             if(is_review !=null) {
-                Drawable review_drawable = Drawable.createFromStream(is_review, "mount" + m_review.getReivewID());
+                Drawable review_drawable = Drawable.createFromStream(is_review, "book" + m_review.getReivewID());
                 m_review.setImage(((BitmapDrawable) review_drawable).getBitmap());
             }
         } catch (Exception e) {

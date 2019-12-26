@@ -25,9 +25,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sejongbooks.Popup.FullImagePopup;
 import com.example.sejongbooks.ServerConnect.PostHttpURLConnection;
-import com.example.sejongbooks.Singleton.MountManager;
+import com.example.sejongbooks.Singleton.BookManager;
 import com.example.sejongbooks.Singleton.MyInfo;
-import com.example.sejongbooks.VO.MountVO;
+import com.example.sejongbooks.VO.BookVO;
 import com.example.sejongbooks.VO.ReviewVO;
 import com.example.sejongbooks.R;
 
@@ -154,7 +154,7 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             ((ItemViewHolder) holder).m_imageView_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Toast.makeText(m_context, mountVO.getName(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(m_context, bookVO.getName(), Toast.LENGTH_SHORT).show();
 
                     Drawable drawable = ((ItemViewHolder) holder).m_imageView_image.getDrawable();
                     FullImagePopup fullImagePopup = new FullImagePopup(m_context, ((BitmapDrawable)drawable).getBitmap());
@@ -165,7 +165,7 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             ((ItemViewHolder) holder).m_imageView_user_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Toast.makeText(m_context, mountVO.getName(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(m_context, bookVO.getName(), Toast.LENGTH_SHORT).show();
 
                     Drawable drawable = ((ItemViewHolder) holder).m_imageView_user_image.getDrawable();
                     FullImagePopup fullImagePopup = new FullImagePopup(m_context, ((BitmapDrawable)drawable).getBitmap());
@@ -239,7 +239,7 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         TextView m_textView_user_id; // user id
         TextView m_textView_coment; // review coment
         TextView m_textView_like; // review how many people like review
-        TextView m_textView_mount_name;
+        TextView m_textView_book_name;
         ImageView m_imageView_user_image;
         ImageView m_imageView_image; // review main image
         ImageButton m_imageButton_like;
@@ -252,7 +252,7 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             m_textView_user_id = itemView.findViewById(R.id.tv_user_id);
             m_textView_coment = itemView.findViewById(R.id.tv_review_content);
             m_textView_like = itemView.findViewById(R.id.tv_review_like);
-            m_textView_mount_name = itemView.findViewById(R.id.txt_mount_name_review);
+            m_textView_book_name = itemView.findViewById(R.id.txt_book_name_review);
 
             m_imageView_user_image = itemView.findViewById(R.id.iv_review_user_profile);
             m_imageView_image = itemView.findViewById(R.id.iv_review_image);
@@ -264,10 +264,10 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             m_textView_user_id.setText(item.getUserId());
             m_textView_coment.setText(item.getCotent());
             m_textView_like.setText(String.valueOf(item.getLike()));
-            for(MountVO mount : MountManager.getInstance().getItems()){
-                if(mount.getID() == item.getMntID()){
-                    m_textView_mount_name.setText(String.valueOf(item.getMntID()));
-                    m_textView_mount_name.setText(mount.getName());
+            for(BookVO book : BookManager.getInstance().getItems()){
+                if(book.getID() == item.getMntID()){
+                    m_textView_book_name.setText(String.valueOf(item.getMntID()));
+                    m_textView_book_name.setText(book.getName());
                 }
             }
 

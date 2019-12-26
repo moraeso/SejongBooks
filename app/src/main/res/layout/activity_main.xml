@@ -37,7 +37,7 @@
         android:orientation="horizontal">
 
         <View
-            android:id="@+id/view_selected_mount_list"
+            android:id="@+id/view_selected_book_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -45,7 +45,7 @@
 
         <View
             android:visibility="invisible"
-            android:id="@+id/view_selected_mount_map"
+            android:id="@+id/view_selected_book_map"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -81,13 +81,13 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/btn_mount_list"
+                android:id="@+id/btn_book_list"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginBottom="3dp"
                 android:background="@color/colorWhite"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/ic_mountain_ranking_main" />
+                app:srcCompat="@drawable/ic_book_ranking_main" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -105,7 +105,7 @@
             android:orientation="vertical">
 
             <ImageButton
-                android:id="@+id/btn_mount_map"
+                android:id="@+id/btn_book_map"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginBottom="3dp"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="mount_sort">
+    <string-array name="book_sort">
         <item>별점 순</item>
         <item>가나다 순</item>
         <item>가까운 순</item>

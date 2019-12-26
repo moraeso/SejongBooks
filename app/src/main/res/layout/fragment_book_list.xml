@@ -20,7 +20,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/et_mountSearch"
+            android:id="@+id/et_bookSearch"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/custom_rounded_edittext"
@@ -63,7 +63,7 @@
             android:orientation="horizontal">
 
             <Spinner
-                android:id="@+id/spinner_mountSort"
+                android:id="@+id/spinner_bookSort"
                 android:layout_width="90dp"
                 android:layout_height="33dp"
                 android:layout_weight="0.2"
@@ -92,11 +92,11 @@
         android:orientation="horizontal">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefresh_mountList"
+            android:id="@+id/swipeRefresh_bookList"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_mountList"
+                android:id="@+id/rv_bookList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fadeScrollbars="true"

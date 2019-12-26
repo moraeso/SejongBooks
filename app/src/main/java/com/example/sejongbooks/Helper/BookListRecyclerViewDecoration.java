@@ -7,12 +7,12 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MountListRecyclerViewDecoration extends RecyclerView.ItemDecoration {
+public class BookListRecyclerViewDecoration extends RecyclerView.ItemDecoration {
     private int spanCount;
     private int spacing;
     private int outerMargin;
 
-    public MountListRecyclerViewDecoration(Activity mActivity) {
+    public BookListRecyclerViewDecoration(Activity mActivity) {
         spanCount = 2;
         spacing = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 12, mActivity.getResources().getDisplayMetrics());

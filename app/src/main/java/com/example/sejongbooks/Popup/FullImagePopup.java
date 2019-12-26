@@ -21,8 +21,8 @@ public class FullImagePopup extends Dialog {
         setContentView(R.layout.popup_full_image);     //다이얼로그에서 사용할 레이아웃입니다.
 
         m_iv_fullImage = (ImageView) findViewById(R.id.iv_fullSize);
-        //m_iv_mount.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-        //m_iv_mount.setAdjustViewBounds(true);
+        //m_iv_book.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        //m_iv_book.setAdjustViewBounds(true);
 
         m_iv_fullImage.setImageBitmap(bitmap);
 

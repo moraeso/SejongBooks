@@ -19,12 +19,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.sejongbooks.Popup.ConfirmDialog;
 import com.example.sejongbooks.Popup.FullImagePopup;
 import com.example.sejongbooks.R;
-import com.example.sejongbooks.Singleton.MountManager;
-import com.example.sejongbooks.VO.MountVO;
+import com.example.sejongbooks.Singleton.BookManager;
+import com.example.sejongbooks.VO.BookVO;
 
-public class MountDetailActivity extends AppCompatActivity {
+public class BookDetailActivity extends AppCompatActivity {
 
-    private MountVO m_mount;
+    private BookVO m_book;
 
     private ConfirmDialog errDialog;
 
@@ -35,60 +35,60 @@ public class MountDetailActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_mount_detail);
+        setContentView(R.layout.activity_book_detail);
 
         initActivity();
     }
 
     public void initActivity() {
-        m_mount = MountManager.getInstance().getMountDataFromID
-                (Integer.parseInt(getIntent().getStringExtra("MountID")));
+        m_book = BookManager.getInstance().getBookDataFromID
+                (Integer.parseInt(getIntent().getStringExtra("BookID")));
 
-        MountManager.getInstance().setSelectedMountID(m_mount.getID());
+        BookManager.getInstance().setSelectedBookID(m_book.getID());
 
-        //Log.d("mmee:initActivityWidget","Thumbnail : " + m_mount.getThumbnail());
-        ImageView m_iv_mountThumbnail = (ImageView) this.findViewById(R.id.iv_mountThumbnail);
-        m_iv_mountThumbnail.setImageBitmap(m_mount.getThumbnail());
+        //Log.d("mmee:initActivityWidget","Thumbnail : " + m_book.getThumbnail());
+        ImageView m_iv_bookThumbnail = (ImageView) this.findViewById(R.id.iv_bookThumbnail);
+        m_iv_bookThumbnail.setImageBitmap(m_book.getThumbnail());
 
-        m_iv_mountThumbnail.setOnTouchListener(new View.OnTouchListener() {
+        m_iv_bookThumbnail.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                FullImagePopup fullImagePopup = new FullImagePopup(MountDetailActivity.this, m_mount.getThumbnail());
+                FullImagePopup fullImagePopup = new FullImagePopup(BookDetailActivity.this, m_book.getThumbnail());
                 fullImagePopup.show();
                 return false;
             }
         });
 
-        TextView m_tv_mountName = (TextView) this.findViewById(R.id.tv_mountName);
-        m_tv_mountName.setText(m_mount.getName());
+        TextView m_tv_bookName = (TextView) this.findViewById(R.id.tv_bookName);
+        m_tv_bookName.setText(m_book.getName());
 
-        TextView m_tv_mountHeight = (TextView) this.findViewById(R.id.tv_mountHeight);
-        m_tv_mountHeight.setText(Integer.toString(m_mount.getHeight()) + "m");
+        TextView m_tv_bookHeight = (TextView) this.findViewById(R.id.tv_bookHeight);
+        m_tv_bookHeight.setText(Integer.toString(m_book.getHeight()) + "m");
 
-        TextView m_tv_mountDistance = (TextView) this.findViewById(R.id.tv_mountDistance);
-        float distance = m_mount.getDistance();
+        TextView m_tv_bookDistance = (TextView) this.findViewById(R.id.tv_bookDistance);
+        float distance = m_book.getDistance();
         if (distance < 1.0f) {
-            m_tv_mountDistance.setText(Integer.toString((int)(distance * 1000)) + "m");
+            m_tv_bookDistance.setText(Integer.toString((int)(distance * 1000)) + "m");
         } else {
-            m_tv_mountDistance.setText(Float.toString(Math.round(distance * 10) / 10.0f) + "km");
+            m_tv_bookDistance.setText(Float.toString(Math.round(distance * 10) / 10.0f) + "km");
         }
-        TextView m_tv_mountGrade = (TextView) this.findViewById(R.id.txt_mount_grade_map);
-        m_tv_mountGrade.setText(Float.toString(m_mount.getGrade()));
+        TextView m_tv_bookGrade = (TextView) this.findViewById(R.id.txt_book_grade_map);
+        m_tv_bookGrade.setText(Float.toString(m_book.getGrade()));
 
-        TextView m_tv_mountAddress = (TextView) this.findViewById(R.id.tv_mountAddress);
-        m_tv_mountAddress.setText(m_mount.getAddress());
+        TextView m_tv_bookAddress = (TextView) this.findViewById(R.id.tv_bookAddress);
+        m_tv_bookAddress.setText(m_book.getAddress());
 
-        TextView m_tv_mountIntro = (TextView) this.findViewById(R.id.tv_mountIntro);
-        m_tv_mountIntro.setText(m_mount.getIntro());
+        TextView m_tv_bookIntro = (TextView) this.findViewById(R.id.tv_bookIntro);
+        m_tv_bookIntro.setText(m_book.getIntro());
 
         ImageView m_iv_isClimbed = (ImageView) this.findViewById(R.id.img_isClimbed);
 
-        if (! m_mount.isClimbed())
+        if (! m_book.isClimbed())
             m_iv_isClimbed.setVisibility(View.INVISIBLE);
 
         // rattingBar
-        RatingBar rb_mountGrade = (RatingBar) this.findViewById(R.id.rb_mount_grade_map);
-        rb_mountGrade.setRating(m_mount.getGrade());
+        RatingBar rb_bookGrade = (RatingBar) this.findViewById(R.id.rb_book_grade_map);
+        rb_bookGrade.setRating(m_book.getGrade());
 
         // close 버튼
         ImageButton closeButton = (ImageButton) this.findViewById(R.id.btn_close);
@@ -109,10 +109,10 @@ public class MountDetailActivity extends AppCompatActivity {
         reviewWriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (m_mount.isClimbed()) {
+                if (m_book.isClimbed()) {
                     Intent intent = new Intent(view.getContext(), ReviewWriteActivity.class);
-                    Log.d("mountID", "" + m_mount.getID());
-                    intent.putExtra("mountID", "" + m_mount.getID());
+                    Log.d("bookID", "" + m_book.getID());
+                    intent.putExtra("bookID", "" + m_book.getID());
                     startActivity(intent);
                 } else {
                     errDialog.setErrorMessage("산을 등반한 후에\n리뷰를 작성해주세요.");
@@ -127,8 +127,8 @@ public class MountDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(),ReviewActivity.class);
 
-                Log.d("mountID",""+m_mount.getID());
-                intent.putExtra("mountID",""+m_mount.getID());
+                Log.d("bookID",""+m_book.getID());
+                intent.putExtra("bookID",""+m_book.getID());
                 startActivity(intent);
                 overridePendingTransition(R.anim.anim_slide_in_bottom,R.anim.anim_slide_out_top);
             }

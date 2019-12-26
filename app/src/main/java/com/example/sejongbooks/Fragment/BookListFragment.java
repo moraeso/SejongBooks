@@ -29,33 +29,33 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.sejongbooks.Adapter.MountListRecyclerViewAdapter;
+import com.example.sejongbooks.Adapter.BookListRecyclerViewAdapter;
 import com.example.sejongbooks.Helper.Calculator;
 import com.example.sejongbooks.Helper.Constant;
-import com.example.sejongbooks.Helper.MountListRecyclerViewDecoration;
+import com.example.sejongbooks.Helper.BookListRecyclerViewDecoration;
 import com.example.sejongbooks.Listener.AsyncCallback;
 import com.example.sejongbooks.R;
-import com.example.sejongbooks.ServerConnect.MountImageTask;
-import com.example.sejongbooks.ServerConnect.MountTask;
+import com.example.sejongbooks.ServerConnect.BookImageTask;
+import com.example.sejongbooks.ServerConnect.BookTask;
 import com.example.sejongbooks.ServerConnect.UserClimbedListTask;
-import com.example.sejongbooks.Singleton.MountManager;
-import com.example.sejongbooks.VO.MountVO;
+import com.example.sejongbooks.Singleton.BookManager;
+import com.example.sejongbooks.VO.BookVO;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class MountListFragment extends Fragment implements MountListRecyclerViewAdapter.OnLoadMoreListener,
+public class BookListFragment extends Fragment implements BookListRecyclerViewAdapter.OnLoadMoreListener,
         SwipeRefreshLayout.OnRefreshListener {
 
-    private RecyclerView m_mountRecycleView;
+    private RecyclerView m_bookRecycleView;
     private RecyclerView.LayoutManager m_layoutManager;
-    private MountListRecyclerViewAdapter m_adapter;
+    private BookListRecyclerViewAdapter m_adapter;
     private SwipeRefreshLayout m_swipeRefresh;
     private Spinner m_sortSpinner;
-    private EditText m_et_mountSearch;
+    private EditText m_et_bookSearch;
 
-    private ArrayList<MountVO> m_bufferItems; // 버퍼로 사용할 리스트
+    private ArrayList<BookVO> m_bufferItems; // 버퍼로 사용할 리스트
     private TextView txtCurrentAddress;
 
     private InputMethodManager imm;
@@ -63,7 +63,7 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mount_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_book_list, container, false);
 
         txtCurrentAddress = view.findViewById(R.id.tv_myAddress);
         txtCurrentAddress.setText(Constant.CURRENT_ADDRESS);
@@ -71,30 +71,30 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
         m_bufferItems = new ArrayList();
 
         // RecycleView 생성 및 사이즈 고정
-        m_mountRecycleView = (RecyclerView) view.findViewById(R.id.rv_mountList);
-        m_mountRecycleView.setHasFixedSize(true);
+        m_bookRecycleView = (RecyclerView) view.findViewById(R.id.rv_bookList);
+        m_bookRecycleView.setHasFixedSize(true);
 
         // Grid 레이아웃 적용
         m_layoutManager = new GridLayoutManager(getContext(), 2);
-        m_mountRecycleView.setLayoutManager(m_layoutManager);
-        m_mountRecycleView.addItemDecoration(new MountListRecyclerViewDecoration(getActivity()));
+        m_bookRecycleView.setLayoutManager(m_layoutManager);
+        m_bookRecycleView.addItemDecoration(new BookListRecyclerViewDecoration(getActivity()));
 
         // 어뎁터 연결
-        m_adapter = new MountListRecyclerViewAdapter(getContext(), this);
-        m_mountRecycleView.setAdapter(m_adapter);
+        m_adapter = new BookListRecyclerViewAdapter(getContext(), this);
+        m_bookRecycleView.setAdapter(m_adapter);
 
         // 새로고침
-        m_swipeRefresh = view.findViewById(R.id.swipeRefresh_mountList);
+        m_swipeRefresh = view.findViewById(R.id.swipeRefresh_bookList);
         m_swipeRefresh.setOnRefreshListener(this);
 
         // 화면 끝까지 스크롤 했을 때 추가 로딩 리스너
-        m_mountRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        m_bookRecycleView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 // 마지막 체크, 왜 -2 인지?
-                GridLayoutManager gridLayoutManager = (GridLayoutManager) m_mountRecycleView.getLayoutManager();
-                boolean isEditTextEmpty = m_et_mountSearch.getText().toString().equals("");
+                GridLayoutManager gridLayoutManager = (GridLayoutManager) m_bookRecycleView.getLayoutManager();
+                boolean isEditTextEmpty = m_et_bookSearch.getText().toString().equals("");
                 if (isEditTextEmpty && dy > 0 &&
                         gridLayoutManager.findLastCompletelyVisibleItemPosition() > (m_adapter.getItemCount() - 2)) {
                     m_adapter.showLoading();
@@ -103,33 +103,33 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
         });
 
         /*
-        ArrayList<MountVO> mountList = MountManager.getInstance().getItems();
-        for(MountVO mount : mountList){
+        ArrayList<BookVO> bookList = BookManager.getInstance().getItems();
+        for(BookVO book : bookList){
             if (Constant.X != 0.0) {
-                mount.setDistance(
+                book.setDistance(
                         Calculator.calculateDistance(
-                                mount.getLocX(),
-                                mount.getLocY()
+                                book.getLocX(),
+                                book.getLocY()
                         )
                 );
             } else {
-                mount.setDistance(0);
+                book.setDistance(0);
             }
         }*/
 
         imm = (InputMethodManager)super.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         // EditText 필터
-        m_et_mountSearch = (EditText) view.findViewById(R.id.et_mountSearch);
-        m_et_mountSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        m_et_bookSearch = (EditText) view.findViewById(R.id.et_bookSearch);
+        m_et_bookSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                    imm.hideSoftInputFromWindow(m_et_mountSearch.getWindowToken(), 0 );
+                    imm.hideSoftInputFromWindow(m_et_bookSearch.getWindowToken(), 0 );
                 }
                 return true;
             }
         });
-        m_et_mountSearch.addTextChangedListener(new TextWatcher() {
+        m_et_bookSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -142,7 +142,7 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
 
             @Override
             public void afterTextChanged(Editable editable) {
-                mountFilter(editable.toString());
+                bookFilter(editable.toString());
             }
         });
 
@@ -152,11 +152,11 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
             @Override
             public void onSuccess(Object object) {
                 // 정렬 스피너
-                m_sortSpinner = (Spinner) MountListFragment.super.getView().findViewById(R.id.spinner_mountSort);
+                m_sortSpinner = (Spinner) BookListFragment.super.getView().findViewById(R.id.spinner_bookSort);
 
-                String[] spinnerArray = getResources().getStringArray(R.array.mount_sort);
+                String[] spinnerArray = getResources().getStringArray(R.array.book_sort);
                 ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
-                        MountListFragment.super.getContext(), R.layout.spinner_item, spinnerArray);
+                        BookListFragment.super.getContext(), R.layout.spinner_item, spinnerArray);
                 spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                 m_sortSpinner.setAdapter(spinnerArrayAdapter);
 
@@ -164,10 +164,10 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                         // 왜 자꾸 자동으로 실행되는지
-                        Log.d("mmee:MountListFragment", "MountList 정렬");
-                        MountManager.getInstance().sortMountList(adapterView.getItemAtPosition(i).toString());
+                        Log.d("mmee:BookListFragment", "BookList 정렬");
+                        BookManager.getInstance().sortBookList(adapterView.getItemAtPosition(i).toString());
                         loadFirstData();
-                        m_mountRecycleView.smoothScrollToPosition(0);
+                        m_bookRecycleView.smoothScrollToPosition(0);
                         //m_adapter.notifyDataSetChanged();
                     }
 
@@ -176,7 +176,7 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
 
                     }
                 });
-                //sortMountList(m_sortSpinner.getSelectedItem().toString());
+                //sortBookList(m_sortSpinner.getSelectedItem().toString());
             }
 
             @Override
@@ -192,25 +192,25 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("mmee:MountListFragment", "onStart");
+        Log.d("mmee:BookListFragment", "onStart");
     }
 
     @Override
     public void onRefresh() {
-        Log.d("mmee:MountListFragment", "onRefresh");
+        Log.d("mmee:BookListFragment", "onRefresh");
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 m_swipeRefresh.setRefreshing(false);
-                //m_mountItems.clear();
+                //m_bookItems.clear();
 
                 //loadFirstData();
 
-                m_et_mountSearch.setText("");
-                MountManager.getInstance().sortMountList(m_sortSpinner.getSelectedItem().toString());
+                m_et_bookSearch.setText("");
+                BookManager.getInstance().sortBookList(m_sortSpinner.getSelectedItem().toString());
 
                 loadFirstData();
-                m_mountRecycleView.smoothScrollToPosition(0);
+                m_bookRecycleView.smoothScrollToPosition(0);
                 //m_adapter.notifyDataSetChanged();
             }
         }, 1000);
@@ -218,28 +218,28 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
 
     @Override
     public void onLoadMore() {
-        Log.d("mmee:MountListFragment", "onLoadMore");
-        new AsyncTask<Void, Void, ArrayList<MountVO>>() {
+        Log.d("mmee:BookListFragment", "onLoadMore");
+        new AsyncTask<Void, Void, ArrayList<BookVO>>() {
             @Override
-            protected ArrayList<MountVO> doInBackground(Void... voids) {
-                ArrayList<MountVO> mountList = MountManager.getInstance().getItems();
+            protected ArrayList<BookVO> doInBackground(Void... voids) {
+                ArrayList<BookVO> bookList = BookManager.getInstance().getItems();
 
                 // 목록 10개 추가
                 int start = m_adapter.getItemCount() - 1;
                 int end = start + 10;
-                if (end > mountList.size()) {
-                    end = mountList.size();
+                if (end > bookList.size()) {
+                    end = bookList.size();
                 }
 
                 m_bufferItems.clear();
                 for (int i = start; i < end; i++) {
-                    if (mountList.get(i).getThumbnail() == null) {
-                        int id = mountList.get(i).getID();
+                    if (bookList.get(i).getThumbnail() == null) {
+                        int id = bookList.get(i).getID();
                         String url_img = Constant.URL + "/basicImages/" + id + ".jpg";
-                        mountList.get(i).setThumbnail(MountManager.getInstance().getMountBitmapFromURL(url_img, "mount" + id));
-                        Log.d("mmee:loadMore", "get mount resource " + id);
+                        bookList.get(i).setThumbnail(BookManager.getInstance().getBookBitmapFromURL(url_img, "book" + id));
+                        Log.d("mmee:loadMore", "get book resource " + id);
                     }
-                    m_bufferItems.add(mountList.get(i));
+                    m_bufferItems.add(bookList.get(i));
                 }
                 // 1초 sleep
                 try {
@@ -252,7 +252,7 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
             }
 
             @Override
-            protected void onPostExecute(ArrayList<MountVO> items) {
+            protected void onPostExecute(ArrayList<BookVO> items) {
                 super.onPostExecute(items);
 
                 m_adapter.dismissLoading();     // 하나 삭제해주는데 왜?
@@ -263,15 +263,15 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
     }
 
     private void loadFirstData() {
-        Log.d("mmee:MountListFragment", "LoadFirstData");
-        MountImageTask mountImageTask = new MountImageTask(Constant.FIRST_TEN, new AsyncCallback() {
+        Log.d("mmee:BookListFragment", "LoadFirstData");
+        BookImageTask bookImageTask = new BookImageTask(Constant.FIRST_TEN, new AsyncCallback() {
             @Override
             public void onSuccess(Object object) {
 
                 // 이미지 10개 view 출력
                 m_bufferItems.clear();
                 for (int i = 0; i < 10; i++) {
-                    m_bufferItems.add(MountManager.getInstance().getItems().get(i));
+                    m_bufferItems.add(BookManager.getInstance().getItems().get(i));
                 }
                 m_adapter.addAll(m_bufferItems);
             }
@@ -281,17 +281,17 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
 
             }
         });
-        mountImageTask.execute();
+        bookImageTask.execute();
     }
 
-    public void sortMountList(String str, boolean isRefresh) {
+    public void sortBookList(String str, boolean isRefresh) {
         /*
-        Log.d("mmee:MountListFragment", "spinner changed : " + str);
+        Log.d("mmee:BookListFragment", "spinner changed : " + str);
 
         if (str.equals("별점 순")) {
-            Collections.sort(MountManager.getInstance().getItems(), new Comparator<MountVO>() {
+            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
                 @Override
-                public int compare(MountVO o1, MountVO o2) {
+                public int compare(BookVO o1, BookVO o2) {
                     if (o1.getGrade() < o2.getGrade()) {
                         return 1;
                     } else if (o1.getGrade() > o2.getGrade()) {
@@ -302,9 +302,9 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
                 }
             });
         } else if (str.equals("가까운 순")) {
-            Collections.sort(MountManager.getInstance().getItems(), new Comparator<MountVO>() {
+            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
                 @Override
-                public int compare(MountVO o1, MountVO o2) {
+                public int compare(BookVO o1, BookVO o2) {
                     if (o1.getDistance() > o2.getDistance()) {
                         return 1;
                     } else if (o1.getDistance() < o2.getDistance()) {
@@ -315,9 +315,9 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
                 }
             });
         } else if (str.equals("높은 순")) {
-            Collections.sort(MountManager.getInstance().getItems(), new Comparator<MountVO>() {
+            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
                 @Override
-                public int compare(MountVO o1, MountVO o2) {
+                public int compare(BookVO o1, BookVO o2) {
                     if (o1.getHeight() < o2.getHeight()) {
                         return 1;
                     } else if (o1.getHeight() > o2.getHeight()) {
@@ -328,9 +328,9 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
                 }
             });
         } else if (str.equals("낮은 순")) {
-            Collections.sort(MountManager.getInstance().getItems(), new Comparator<MountVO>() {
+            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
                 @Override
-                public int compare(MountVO o1, MountVO o2) {
+                public int compare(BookVO o1, BookVO o2) {
                     if (o1.getHeight() > o2.getHeight()) {
                         return 1;
                     } else if (o1.getHeight() < o2.getHeight()) {
@@ -341,9 +341,9 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
                 }
             });
         } else if (str.equals("가나다 순")) {
-            Collections.sort(MountManager.getInstance().getItems(), new Comparator<MountVO>() {
+            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
                 @Override
-                public int compare(MountVO o1, MountVO o2) {
+                public int compare(BookVO o1, BookVO o2) {
                     if (o1.getName().toString().
                             compareTo(o2.getName().toString()) > 0) {
                         return 1;
@@ -359,16 +359,16 @@ public class MountListFragment extends Fragment implements MountListRecyclerView
 
         if (isRefresh) {
             loadFirstData();
-            m_mountRecycleView.smoothScrollToPosition(0);
+            m_bookRecycleView.smoothScrollToPosition(0);
             m_adapter.notifyDataSetChanged();
         }
     }
 
 
-    private void mountFilter(String text) {
-        ArrayList<MountVO> filterItems = new ArrayList();
+    private void bookFilter(String text) {
+        ArrayList<BookVO> filterItems = new ArrayList();
 
-        for (MountVO item : MountManager.getInstance().getItems()) {
+        for (BookVO item : BookManager.getInstance().getItems()) {
             if (item.getName().toLowerCase().contains(text.toLowerCase())) {
                 filterItems.add(item);
             }

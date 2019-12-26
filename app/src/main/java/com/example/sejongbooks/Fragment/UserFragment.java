@@ -39,23 +39,23 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 import com.example.sejongbooks.Activity.LikeReviewActivity;
-import com.example.sejongbooks.Activity.MountDetailActivity;
+import com.example.sejongbooks.Activity.BookDetailActivity;
 import com.example.sejongbooks.Activity.MyReviewActivity;
 import com.example.sejongbooks.Activity.ReviewActivity;
 import com.example.sejongbooks.Helper.Constant;
 import com.example.sejongbooks.Listener.AsyncCallback;
 import com.example.sejongbooks.Popup.FullImagePopup;
 import com.example.sejongbooks.R;
-import com.example.sejongbooks.Adapter.MountClimbedListRecyclerViewAdapter;
+import com.example.sejongbooks.Adapter.BookClimbedListRecyclerViewAdapter;
 
-import com.example.sejongbooks.Helper.MountListRecyclerViewDecoration;
+import com.example.sejongbooks.Helper.BookListRecyclerViewDecoration;
 
-import com.example.sejongbooks.ServerConnect.MountImageTask;
+import com.example.sejongbooks.ServerConnect.BookImageTask;
 import com.example.sejongbooks.ServerConnect.PostHttpURLConnection;
 import com.example.sejongbooks.ServerConnect.UserClimbedListTask;
-import com.example.sejongbooks.Singleton.MountManager;
+import com.example.sejongbooks.Singleton.BookManager;
 import com.example.sejongbooks.Singleton.MyInfo;
-import com.example.sejongbooks.VO.MountVO;
+import com.example.sejongbooks.VO.BookVO;
 import com.example.sejongbooks.VO.ReviewVO;
 
 
@@ -69,13 +69,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class UserFragment extends Fragment implements MountClimbedListRecyclerViewAdapter.OnLoadMoreListener,
+public class UserFragment extends Fragment implements BookClimbedListRecyclerViewAdapter.OnLoadMoreListener,
         SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
-    private RecyclerView m_mountRecycleView;
+    private RecyclerView m_bookRecycleView;
     private RecyclerView.LayoutManager m_layoutManager;
-    private MountClimbedListRecyclerViewAdapter m_adapter;
-    private ArrayList<MountVO> m_bufferItems; // 버퍼로 사용할 리스트
+    private BookClimbedListRecyclerViewAdapter m_adapter;
+    private ArrayList<BookVO> m_bufferItems; // 버퍼로 사용할 리스트
 
     private TextView txtCount1, txtCount2, txtTotalHeight;
     private int nCount=0;
@@ -101,19 +101,19 @@ public class UserFragment extends Fragment implements MountClimbedListRecyclerVi
         m_bufferItems = new ArrayList();
 
         // RecycleView 생성 및 사이즈 고정
-        m_mountRecycleView = (RecyclerView) view.findViewById(R.id.rv_mountList);
-        m_mountRecycleView.setHasFixedSize(true);
+        m_bookRecycleView = (RecyclerView) view.findViewById(R.id.rv_bookList);
+        m_bookRecycleView.setHasFixedSize(true);
 
         // Grid 레이아웃 적용
         m_layoutManager= new LinearLayoutManager(getContext());
         ((LinearLayoutManager) m_layoutManager).setOrientation(LinearLayoutManager.HORIZONTAL);
 
-        m_mountRecycleView.setLayoutManager(m_layoutManager);
-        m_mountRecycleView.addItemDecoration(new MountListRecyclerViewDecoration(getActivity()));
+        m_bookRecycleView.setLayoutManager(m_layoutManager);
+        m_bookRecycleView.addItemDecoration(new BookListRecyclerViewDecoration(getActivity()));
 
         // 어뎁터 연결
-        m_adapter = new MountClimbedListRecyclerViewAdapter(getContext(), this);
-        m_mountRecycleView.setAdapter(m_adapter);
+        m_adapter = new BookClimbedListRecyclerViewAdapter(getContext(), this);
+        m_bookRecycleView.setAdapter(m_adapter);
 
         txtCount1 = view.findViewById(R.id.txt_count_1_user);
         txtCount2 = view.findViewById(R.id.txt_count_2_user);
@@ -284,16 +284,16 @@ public class UserFragment extends Fragment implements MountClimbedListRecyclerVi
     };
 
     private void loadAll() {
-        MountImageTask mountImageTask = new MountImageTask(Constant.CLIMBED, new AsyncCallback() {
+        BookImageTask bookImageTask = new BookImageTask(Constant.CLIMBED, new AsyncCallback() {
             @Override
             public void onSuccess(Object object) {
-                ArrayList < MountVO > mountList = MountManager.getInstance().getItems();
+                ArrayList < BookVO > bookList = BookManager.getInstance().getItems();
                 m_bufferItems.clear();
-                for (int i = 0; i < mountList.size(); i++) {
-                    if(mountList.get(i).isClimbed()) {
-                        m_bufferItems.add(MountManager.getInstance().getItems().get(i));
+                for (int i = 0; i < bookList.size(); i++) {
+                    if(bookList.get(i).isClimbed()) {
+                        m_bufferItems.add(BookManager.getInstance().getItems().get(i));
                         nCount++;
-                        nTotalHeight+=MountManager.getInstance().getItems().get(i).getHeight();
+                        nTotalHeight+=BookManager.getInstance().getItems().get(i).getHeight();
                     }
                 }
                 m_adapter.addAll(m_bufferItems);
@@ -308,7 +308,7 @@ public class UserFragment extends Fragment implements MountClimbedListRecyclerVi
 
             }
         });
-        mountImageTask.execute();
+        bookImageTask.execute();
     }
 
 

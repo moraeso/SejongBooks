@@ -29,7 +29,7 @@ import com.example.sejongbooks.Adapter.ReviewRecyclerViewAdapter;
 import com.example.sejongbooks.Helper.Constant;
 import com.example.sejongbooks.Listener.AsyncCallback;
 import com.example.sejongbooks.Model.User;
-import com.example.sejongbooks.ServerConnect.MountImageTask;
+import com.example.sejongbooks.ServerConnect.BookImageTask;
 import com.example.sejongbooks.ServerConnect.PostHttpURLConnection;
 import com.example.sejongbooks.ServerConnect.ReviewImageTask;
 import com.example.sejongbooks.ServerConnect.UserImageTask;
@@ -59,7 +59,7 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
     private Button btn_reviewExit;
 
     private String m_url;
-    private String m_mountID;
+    private String m_bookID;
 
     private TextView txtNull;
 
@@ -73,10 +73,10 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
         initView();
         m_url = "http://15011066.iptime.org:8888/api/reviewmnt";
         Intent intent = getIntent();
-        m_mountID = intent.getStringExtra("mountID");
+        m_bookID = intent.getStringExtra("bookID");
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put("mntID",m_mountID);
+        contentValues.put("mntID",m_bookID);
 
         NetworkTask networkTask = new NetworkTask(m_url, contentValues, new AsyncCallback() {
             @Override
@@ -290,14 +290,14 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
             is = (InputStream) new URL(reviewImg_url).getContent();
            } catch (IOException e) {
             Log.d("mmee:ReviewActivity", "fail to load review image");
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_mountain_ranking_main);
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_book_ranking_main);
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
             newReview.setImage(bitmap);
             e.printStackTrace();
             return;
         }
 
-        Drawable review_drawable = Drawable.createFromStream(is, "mount" + newReview.getReivewID());
+        Drawable review_drawable = Drawable.createFromStream(is, "book" + newReview.getReivewID());
         newReview.setImage(((BitmapDrawable) review_drawable).getBitmap());
         Log.d("mmee:ReviewActivity", "Get review image");
     }
@@ -309,14 +309,14 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
             is = (InputStream) new URL(userImg_url).getContent();
 
         } catch (IOException e) {
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_mountain_ranking_main);
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_book_ranking_main);
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
             newReview.setUserImage(bitmap);
             e.printStackTrace();
             return;
         }
 
-        Drawable user_drawable = Drawable.createFromStream(is, "mount" + newReview.getUserId());
+        Drawable user_drawable = Drawable.createFromStream(is, "book" + newReview.getUserId());
         newReview.setUserImage(((BitmapDrawable) user_drawable).getBitmap());
         Log.d("mmee:ReviewActivity", "Get user image");
 

@@ -173,7 +173,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_weight="0.8"
             android:orientation="horizontal"
-            android:id="@+id/rv_mountList"
+            android:id="@+id/rv_bookList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fadeScrollbars="true"

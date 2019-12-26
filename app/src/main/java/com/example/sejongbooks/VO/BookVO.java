@@ -3,7 +3,7 @@ package com.example.sejongbooks.VO;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
-public class MountVO {
+public class BookVO {
 
     private int m_id;
     private Bitmap m_thumbnail;
@@ -16,7 +16,7 @@ public class MountVO {
     private String m_address; // 주소
     private String m_intro; // 산 소개
 
-    public MountVO() {
+    public BookVO() {
     }
 
     //  "mntID": 1,
@@ -28,7 +28,7 @@ public class MountVO {
     //  "mntLocX": "37.598068",
     //  "mntLocY": "127.025347"
 
-    public void setMount(int id, String name, int height, String intro, String address, float grade, double x, double y) {
+    public void setBook(int id, String name, int height, String intro, String address, float grade, double x, double y) {
         this.m_id = id;
         this.m_name = name;
         this.m_height = height;
@@ -40,7 +40,7 @@ public class MountVO {
     }
 
     /*
-    public MountVO(Drawable thumbnail, String name, int height, float distance, float grade, Boolean isClimbed)
+    public BookVO(Drawable thumbnail, String name, int height, float distance, float grade, Boolean isClimbed)
     {
         this.m_thumbnail = thumbnail;
         this.m_name = name;

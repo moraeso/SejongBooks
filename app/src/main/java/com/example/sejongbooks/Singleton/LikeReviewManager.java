@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-import com.example.sejongbooks.VO.MountVO;
+import com.example.sejongbooks.VO.BookVO;
 import com.example.sejongbooks.VO.ReviewVO;
 
 import java.io.IOException;

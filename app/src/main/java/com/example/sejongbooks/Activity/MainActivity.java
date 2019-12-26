@@ -13,8 +13,8 @@ import android.view.Display;
 import android.view.View;
 import android.widget.ImageButton;
 
-import com.example.sejongbooks.Fragment.MountListFragment;
-import com.example.sejongbooks.Fragment.MountMapFragment;
+import com.example.sejongbooks.Fragment.BookListFragment;
+import com.example.sejongbooks.Fragment.BookMapFragment;
 import com.example.sejongbooks.Fragment.UserFragment;
 import com.example.sejongbooks.Fragment.SettingFragment;
 import com.example.sejongbooks.Helper.BackPressCloseHandler;
@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Fragment fragment;
     private int curFragment;
 
-    ImageButton btnMountList, btnMountMap, btnUser, btnSetting;
-    View selectedMountList, selectedMountMap, selectedUser, selectedSetting;
+    ImageButton btnBookList, btnBookMap, btnUser, btnSetting;
+    View selectedBookList, selectedBookMap, selectedUser, selectedSetting;
 
     private BackPressCloseHandler backPressCloseHandler;
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initFragment(){
-        fragment = new MountListFragment();
+        fragment = new BookListFragment();
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace( R.id.main_fragment, fragment );
@@ -73,20 +73,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView(){
-        btnMountList = findViewById(R.id.btn_mount_list);
-        btnMountMap = findViewById(R.id.btn_mount_map);
+        btnBookList = findViewById(R.id.btn_book_list);
+        btnBookMap = findViewById(R.id.btn_book_map);
         btnUser = findViewById(R.id.btn_user);
         btnSetting = findViewById(R.id.btn_setting);
 
-        selectedMountList = findViewById(R.id.view_selected_mount_list);
-        selectedMountMap = findViewById(R.id.view_selected_mount_map);
+        selectedBookList = findViewById(R.id.view_selected_book_list);
+        selectedBookMap = findViewById(R.id.view_selected_book_map);
         selectedUser = findViewById(R.id.view_selected_user);
         selectedSetting = findViewById(R.id.view_selected_setting);
     }
 
     private void initListener(){
-        btnMountList.setOnClickListener(this);
-        btnMountMap.setOnClickListener(this);
+        btnBookList.setOnClickListener(this);
+        btnBookMap.setOnClickListener(this);
         btnUser.setOnClickListener(this);
         btnSetting.setOnClickListener(this);
     }
@@ -94,37 +94,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_mount_list:
+            case R.id.btn_book_list:
                 if (curFragment != Constant.FRAGMENT_LIST) {
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.main_fragment, new MountListFragment())
+                            .replace(R.id.main_fragment, new BookListFragment())
                             .addToBackStack(null)
                             .detach(fragment)
                             .attach(fragment)
                             .commit();
 
-                    selectedMountList.setVisibility(View.VISIBLE);
-                    selectedMountMap.setVisibility(View.INVISIBLE);
+                    selectedBookList.setVisibility(View.VISIBLE);
+                    selectedBookMap.setVisibility(View.INVISIBLE);
                     selectedUser.setVisibility(View.INVISIBLE);
                     selectedSetting.setVisibility(View.INVISIBLE);
                     curFragment = Constant.FRAGMENT_LIST;
                 }
                 break;
 
-            case R.id.btn_mount_map:
+            case R.id.btn_book_map:
                 if (curFragment != Constant.FRAGMENT_MAP) {
 
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.main_fragment, new MountMapFragment())
+                            .replace(R.id.main_fragment, new BookMapFragment())
                             .addToBackStack(null)
                             .detach(fragment)
                             .attach(fragment)
                             .commit();
 
-                    selectedMountList.setVisibility(View.INVISIBLE);
-                    selectedMountMap.setVisibility(View.VISIBLE);
+                    selectedBookList.setVisibility(View.INVISIBLE);
+                    selectedBookMap.setVisibility(View.VISIBLE);
                     selectedUser.setVisibility(View.INVISIBLE);
                     selectedSetting.setVisibility(View.INVISIBLE);
                     curFragment = Constant.FRAGMENT_MAP;
@@ -141,8 +141,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .attach(fragment)
                             .commit();
 
-                    selectedMountList.setVisibility(View.INVISIBLE);
-                    selectedMountMap.setVisibility(View.INVISIBLE);
+                    selectedBookList.setVisibility(View.INVISIBLE);
+                    selectedBookMap.setVisibility(View.INVISIBLE);
                     selectedUser.setVisibility(View.VISIBLE);
                     selectedSetting.setVisibility(View.INVISIBLE);
                     curFragment = Constant.FRAGMENT_USER;
@@ -159,8 +159,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .attach(fragment)
                             .commit();
 
-                    selectedMountList.setVisibility(View.INVISIBLE);
-                    selectedMountMap.setVisibility(View.INVISIBLE);
+                    selectedBookList.setVisibility(View.INVISIBLE);
+                    selectedBookMap.setVisibility(View.INVISIBLE);
                     selectedUser.setVisibility(View.INVISIBLE);
                     selectedSetting.setVisibility(View.VISIBLE);
                     curFragment = Constant.FRAGMENT_SETTING;

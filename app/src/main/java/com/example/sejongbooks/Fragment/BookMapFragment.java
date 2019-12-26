@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment;
 import com.example.sejongbooks.R;
 
 
-public class MountMapFragment extends Fragment {
+public class BookMapFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mount_map, container, false);
+        View view = inflater.inflate(R.layout.fragment_book_map, container, false);
 
         initView(view);
 

@@ -5,7 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import com.example.sejongbooks.VO.MountVO;
+import com.example.sejongbooks.VO.BookVO;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,53 +14,53 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class MountManager {
+public class BookManager {
 
     private int loadPercent;
     private String currentSort;
-    private int selectedMountID;
+    private int selectedBookID;
 
-    private MountManager() {
+    private BookManager() {
         m_items = new ArrayList();
     }
 
-    private static class MountManagerHolder {
-        public static final MountManager instance = new MountManager();
+    private static class BookManagerHolder {
+        public static final BookManager instance = new BookManager();
     }
 
-    public static MountManager getInstance() {
-        return MountManagerHolder.instance;
+    public static BookManager getInstance() {
+        return BookManagerHolder.instance;
     }
 
-    private ArrayList<MountVO> m_items;
+    private ArrayList<BookVO> m_items;
 
-    public ArrayList<MountVO> getItems() { return m_items; }
+    public ArrayList<BookVO> getItems() { return m_items; }
 
-    public Bitmap getMountBitmapFromURL(String url, String srcName) {
+    public Bitmap getBookBitmapFromURL(String url, String srcName) {
         InputStream is;
-        Drawable mount_drawable = null;
-        Bitmap mount_bitmap = null;
+        Drawable book_drawable = null;
+        Bitmap book_bitmap = null;
 
         try {
             is = (InputStream) new URL(url).getContent();
-            mount_drawable = Drawable.createFromStream(is, srcName);
-            mount_bitmap = ((BitmapDrawable)mount_drawable).getBitmap();
+            book_drawable = Drawable.createFromStream(is, srcName);
+            book_bitmap = ((BitmapDrawable)book_drawable).getBitmap();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return mount_bitmap;
+        return book_bitmap;
     }
 
-    public MountVO getMountDataFromID(int mountID) {
-        MountVO mount = new MountVO();
-        for (MountVO item : MountManager.getInstance().getItems()) {
-            if (item.getID() == mountID) {
-                mount = item;
+    public BookVO getBookDataFromID(int bookID) {
+        BookVO book = new BookVO();
+        for (BookVO item : BookManager.getInstance().getItems()) {
+            if (item.getID() == bookID) {
+                book = item;
                 break;
             }
         }
-        return mount;
+        return book;
     }
 
     public void setLoadPercent(int percent) {
@@ -71,9 +71,9 @@ public class MountManager {
         return loadPercent;
     }
 
-    public void setSelectedMountID(int id) { selectedMountID = id; }
+    public void setSelectedBookID(int id) { selectedBookID = id; }
 
-    public int getSelectedMountID() { return selectedMountID; }
+    public int getSelectedBookID() { return selectedBookID; }
 
     public void setCurrentSort(String sort) {
         currentSort = sort;
@@ -83,13 +83,13 @@ public class MountManager {
         return currentSort;
     }
 
-    public void sortMountList(String str) {
-        Log.d("mmee:MountListFragment", "spinner changed : " + str);
+    public void sortBookList(String str) {
+        Log.d("mmee:BookListFragment", "spinner changed : " + str);
 
         if (str.equals("별점 순")) {
-            Collections.sort(MountManager.getInstance().getItems(), new Comparator<MountVO>() {
+            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
                 @Override
-                public int compare(MountVO o1, MountVO o2) {
+                public int compare(BookVO o1, BookVO o2) {
                     if (o1.getGrade() < o2.getGrade()) {
                         return 1;
                     } else if (o1.getGrade() > o2.getGrade()) {
@@ -100,9 +100,9 @@ public class MountManager {
                 }
             });
         } else if (str.equals("가까운 순")) {
-            Collections.sort(MountManager.getInstance().getItems(), new Comparator<MountVO>() {
+            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
                 @Override
-                public int compare(MountVO o1, MountVO o2) {
+                public int compare(BookVO o1, BookVO o2) {
                     if (o1.getDistance() > o2.getDistance()) {
                         return 1;
                     } else if (o1.getDistance() < o2.getDistance()) {
@@ -113,9 +113,9 @@ public class MountManager {
                 }
             });
         } else if (str.equals("산 높이 ↑")) {
-            Collections.sort(MountManager.getInstance().getItems(), new Comparator<MountVO>() {
+            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
                 @Override
-                public int compare(MountVO o1, MountVO o2) {
+                public int compare(BookVO o1, BookVO o2) {
                     if (o1.getHeight() < o2.getHeight()) {
                         return 1;
                     } else if (o1.getHeight() > o2.getHeight()) {
@@ -126,9 +126,9 @@ public class MountManager {
                 }
             });
         } else if (str.equals("산 높이 ↓")) {
-            Collections.sort(MountManager.getInstance().getItems(), new Comparator<MountVO>() {
+            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
                 @Override
-                public int compare(MountVO o1, MountVO o2) {
+                public int compare(BookVO o1, BookVO o2) {
                     if (o1.getHeight() > o2.getHeight()) {
                         return 1;
                     } else if (o1.getHeight() < o2.getHeight()) {
@@ -139,9 +139,9 @@ public class MountManager {
                 }
             });
         } else if (str.equals("가나다 순")) {
-            Collections.sort(MountManager.getInstance().getItems(), new Comparator<MountVO>() {
+            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
                 @Override
-                public int compare(MountVO o1, MountVO o2) {
+                public int compare(BookVO o1, BookVO o2) {
                     if (o1.getName().toString().
                             compareTo(o2.getName().toString()) > 0) {
                         return 1;

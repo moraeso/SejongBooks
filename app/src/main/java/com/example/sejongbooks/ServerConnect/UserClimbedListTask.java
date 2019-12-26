@@ -5,8 +5,8 @@ import android.util.Log;
 
 import com.example.sejongbooks.Helper.Constant;
 import com.example.sejongbooks.Listener.AsyncCallback;
-import com.example.sejongbooks.Singleton.MountManager;
-import com.example.sejongbooks.VO.MountVO;
+import com.example.sejongbooks.Singleton.BookManager;
+import com.example.sejongbooks.VO.BookVO;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,14 +62,14 @@ public class UserClimbedListTask extends AsyncTask<Void, Void, Void> {
 
     private void initUserClimbed(String json_str) {
 
-        ArrayList<MountVO> mountList = MountManager.getInstance().getItems();
+        ArrayList<BookVO> bookList = BookManager.getInstance().getItems();
 
         try {
             JSONArray jsonArray = new JSONArray(json_str);
 
             // user 등반 기록 false로 초기화
-            for (MountVO mount : mountList) {
-                mount.setClimb(false);
+            for (BookVO book : bookList) {
+                book.setClimb(false);
             }
 
             // 순회하며 등반 기록 적용
@@ -77,9 +77,9 @@ public class UserClimbedListTask extends AsyncTask<Void, Void, Void> {
                 JSONObject jsonObj = jsonArray.getJSONObject(i);
 
                 int mntID = jsonObj.getInt("mntID");
-                for (MountVO mount : mountList) {
-                    if (mount.getID() == mntID) {
-                        mount.setClimb(true);
+                for (BookVO book : bookList) {
+                    if (book.getID() == mntID) {
+                        book.setClimb(true);
                        break;
                     }
                 }

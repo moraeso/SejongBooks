@@ -38,13 +38,13 @@ import android.widget.Toast;
 import com.example.sejongbooks.Helper.Constant;
 import com.example.sejongbooks.Listener.AsyncCallback;
 import com.example.sejongbooks.R;
-import com.example.sejongbooks.ServerConnect.MountTask;
+import com.example.sejongbooks.ServerConnect.BookTask;
 import com.example.sejongbooks.ServerConnect.StarTask;
 import com.example.sejongbooks.ServerConnect.WriteImageTask;
 import com.example.sejongbooks.ServerConnect.WriteTask;
-import com.example.sejongbooks.Singleton.MountManager;
+import com.example.sejongbooks.Singleton.BookManager;
 import com.example.sejongbooks.Singleton.MyInfo;
-import com.example.sejongbooks.VO.MountVO;
+import com.example.sejongbooks.VO.BookVO;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,7 +64,7 @@ public class ReviewWriteActivity extends AppCompatActivity implements View.OnCli
     private EditText editText_review;
     private TextView tv_review_length;
     //view part
-    private int m_mountID;
+    private int m_bookID;
     private Uri m_uri;
 
     private int exifDegree;
@@ -94,7 +94,7 @@ public class ReviewWriteActivity extends AppCompatActivity implements View.OnCli
         m_reviewStarURL = "http://15011066.iptime.org:8888/api/star";
 
         Intent intent = getIntent();
-        m_mountID = Integer.parseInt(intent.getStringExtra("mountID"));
+        m_bookID = Integer.parseInt(intent.getStringExtra("bookID"));
 
         checkPermission();
         //권한 체크
@@ -239,7 +239,7 @@ public class ReviewWriteActivity extends AppCompatActivity implements View.OnCli
         ContentValues values = new ContentValues();
 
         values.put("reviewUserID", MyInfo.getInstance().getUser().getID() );
-        values.put("reviewMntID", m_mountID);
+        values.put("reviewMntID", m_bookID);
         values.put("reviewString", editText_review.getText().toString());
         values.put("reviewStar", ratingBar_review.getRating());
 
@@ -263,13 +263,13 @@ public class ReviewWriteActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onSuccess(Object object) {
                         ContentValues values = new ContentValues();
-                        values.put("reviewMntID", m_mountID);
+                        values.put("reviewMntID", m_bookID);
 
                         StarTask starTask = new StarTask(m_reviewStarURL, values, new AsyncCallback() {
                             @Override
                             public void onSuccess(Object object) {
                                 String url = Constant.URL + "/api/mntall";
-                                MountTask mountTask = new MountTask(Constant.UPDATE_STAR, url, null, new AsyncCallback() {
+                                BookTask bookTask = new BookTask(Constant.UPDATE_STAR, url, null, new AsyncCallback() {
                                     @Override
                                     public void onSuccess(Object object) {
                                         finish();
@@ -282,7 +282,7 @@ public class ReviewWriteActivity extends AppCompatActivity implements View.OnCli
 
                                     }
                                 });
-                                mountTask.execute();
+                                bookTask.execute();
                             }
 
                             @Override

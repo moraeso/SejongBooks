@@ -11,8 +11,8 @@ import com.example.sejongbooks.Helper.BackPressCloseHandler;
 import com.example.sejongbooks.Helper.Constant;
 import com.example.sejongbooks.Listener.AsyncCallback;
 import com.example.sejongbooks.R;
-import com.example.sejongbooks.ServerConnect.MountTask;
-import com.example.sejongbooks.Singleton.MountManager;
+import com.example.sejongbooks.ServerConnect.BookTask;
+import com.example.sejongbooks.Singleton.BookManager;
 
 public class IntroActivity extends AppCompatActivity {
 
@@ -30,14 +30,14 @@ public class IntroActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar_intro);
         tv_loadPercent = (TextView) findViewById(R.id.tv_loadPercent);
 
-        initMountList();
+        initBookList();
         startLoading();
     }
 
-    private void initMountList() {
-        MountManager.getInstance().setLoadPercent(0);
-        MountManager.getInstance().getItems().clear();
-        loadMountData();
+    private void initBookList() {
+        BookManager.getInstance().setLoadPercent(0);
+        BookManager.getInstance().getItems().clear();
+        loadBookData();
     }
 
     private void startLoading() {
@@ -45,12 +45,12 @@ public class IntroActivity extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (MountManager.getInstance().getLoadPercent() < 100) {
+                while (BookManager.getInstance().getLoadPercent() < 100) {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            progressBar.setProgress(MountManager.getInstance().getLoadPercent());
-                            tv_loadPercent.setText(MountManager.getInstance().getLoadPercent() + " %");
+                            progressBar.setProgress(BookManager.getInstance().getLoadPercent());
+                            tv_loadPercent.setText(BookManager.getInstance().getLoadPercent() + " %");
                         }
                     });
                     try {
@@ -70,15 +70,15 @@ public class IntroActivity extends AppCompatActivity {
         backPressCloseHandler.onBackPressed();
     }
 
-    private void loadMountData() {
+    private void loadBookData() {
         // 산 URL 설정
         String url = Constant.URL + "/api/mntall";
 
         // execute, 산 리스트 생성 및 저장
-        MountTask mountTask = new MountTask(Constant.GET_NEW, url, null, new AsyncCallback() {
+        BookTask bookTask = new BookTask(Constant.GET_NEW, url, null, new AsyncCallback() {
             @Override
             public void onSuccess(Object object) {
-                Log.d("mmee:mountTask", "get mount resource success!");
+                Log.d("mmee:bookTask", "get book resource success!");
                 finish();
             }
 
@@ -87,7 +87,7 @@ public class IntroActivity extends AppCompatActivity {
                 //e.printStackTrace();
             }
         });
-        mountTask.execute();
+        bookTask.execute();
     }
 
 }

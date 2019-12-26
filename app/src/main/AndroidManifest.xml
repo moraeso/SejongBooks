@@ -45,7 +45,7 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".Activity.MainActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Activity.MountDetailActivity"
+        <activity android:name=".Activity.BookDetailActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 

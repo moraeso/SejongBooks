@@ -271,7 +271,7 @@ public class ReviseUserInformationActivity extends AppCompatActivity implements 
             }
 
             if(is_user != null) {
-                Drawable user_drawable = Drawable.createFromStream(is_user, "mount" + MyInfo.getInstance().getUser().getID());
+                Drawable user_drawable = Drawable.createFromStream(is_user, "book" + MyInfo.getInstance().getUser().getID());
                 MyInfo.getInstance().getUser().setProfile(((BitmapDrawable) user_drawable).getBitmap());
             }
             return null;
