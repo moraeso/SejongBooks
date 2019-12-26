@@ -218,7 +218,7 @@ public class BookMapFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
             asyncDialog.setCancelable(false);
             asyncDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            asyncDialog.setMessage("리뷰를 불러오고 있습니다");
+            asyncDialog.setMessage("피드를 불러오고 있습니다");
 
             // show dialog
             asyncDialog.show();

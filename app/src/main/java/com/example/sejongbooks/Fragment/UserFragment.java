@@ -298,9 +298,9 @@ public class UserFragment extends Fragment implements BookClimbedListRecyclerVie
                 }
                 m_adapter.addAll(m_bufferItems);
 
-                txtCount1.setText(String.valueOf(nCount)+"회");
+                txtCount1.setText(String.valueOf(nCount)+"권");
                 txtCount2.setText(String.valueOf(nCount));
-                txtTotalHeight.setText(String.valueOf(nTotalHeight)+"m");
+                txtTotalHeight.setText(String.valueOf(nTotalHeight)+"쪽");
             }
 
             @Override

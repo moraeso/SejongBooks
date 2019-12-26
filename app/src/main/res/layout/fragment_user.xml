@@ -83,7 +83,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="총 등산 높이"
+                            android:text="총 독서 페이지"
                             android:textColor="@color/colorMain"
                             android:textSize="12sp" />
 
@@ -92,7 +92,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="6dp"
-                            android:text="m"
+                            android:text="OOO"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -105,7 +105,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="등산 횟수"
+                            android:text="독서 권수"
                             android:textColor="@color/colorMain"
                             android:textSize="12sp" />
 
@@ -114,7 +114,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="6dp"
-                            android:text="회"
+                            android:text="OOO"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -150,7 +150,7 @@
             android:id="@+id/imageView2"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@drawable/ic_flag_green" />
+            android:src="@drawable/ic_flag_isread" />
 
         <TextView
             android:id="@+id/txt_count_2_user"
@@ -165,7 +165,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginBottom="2dp"
-            android:text="개 산 정복"
+            android:text="권 책 독파!"
             android:textColor="@color/colorGray"
             android:textSize="12sp" />
     </LinearLayout>
