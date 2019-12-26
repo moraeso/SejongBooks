@@ -3,9 +3,8 @@
     <string-array name="book_sort">
         <item>별점 순</item>
         <item>가나다 순</item>
-        <item>가까운 순</item>
-        <item>산 높이 ↑</item>
-        <item>산 높이 ↓</item>
+        <item>페이지 ↑</item>
+        <item>페이지 ↓</item>
     </string-array>
 
 

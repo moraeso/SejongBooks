@@ -62,32 +62,31 @@ public class BookDetailActivity extends AppCompatActivity {
         TextView m_tv_bookName = (TextView) this.findViewById(R.id.tv_bookName);
         m_tv_bookName.setText(m_book.getName());
 
-        TextView m_tv_bookHeight = (TextView) this.findViewById(R.id.tv_bookHeight);
-        m_tv_bookHeight.setText(Integer.toString(m_book.getID()) + "m");
+        TextView m_tv_bookAuthor = (TextView) this.findViewById(R.id.tv_bookAuthor);
+        m_tv_bookAuthor.setText(m_book.getAuthor());
 
-        TextView m_tv_bookDistance = (TextView) this.findViewById(R.id.tv_bookDistance);
-        float distance = m_book.getGrade();
-        if (distance < 1.0f) {
-            m_tv_bookDistance.setText(Integer.toString((int)(distance * 1000)) + "m");
-        } else {
-            m_tv_bookDistance.setText(Float.toString(Math.round(distance * 10) / 10.0f) + "km");
-        }
-        TextView m_tv_bookGrade = (TextView) this.findViewById(R.id.txt_book_grade_map);
+        TextView m_tv_bookDistance = (TextView) this.findViewById(R.id.tv_bookPublisher);
+        m_tv_bookDistance.setText(m_book.getPublisher());
+
+        TextView m_tv_bookType = (TextView) this.findViewById(R.id.tv_bookType);
+        m_tv_bookType.setText(m_book.getType());
+
+        TextView m_tv_bookPage = (TextView) this.findViewById(R.id.tv_bookPage);
+        m_tv_bookPage.setText(Integer.toString(m_book.getPage()) + "쪽");
+
+        TextView m_tv_bookGrade = (TextView) this.findViewById(R.id.txt_book_grade);
         m_tv_bookGrade.setText(Float.toString(m_book.getGrade()));
-
-        TextView m_tv_bookAddress = (TextView) this.findViewById(R.id.tv_bookAddress);
-        m_tv_bookAddress.setText(m_book.getAuthor());
 
         TextView m_tv_bookIntro = (TextView) this.findViewById(R.id.tv_bookIntro);
         m_tv_bookIntro.setText(m_book.getIntro());
 
-        ImageView m_iv_isClimbed = (ImageView) this.findViewById(R.id.img_isClimbed);
+        ImageView m_iv_isRead = (ImageView) this.findViewById(R.id.img_isRead);
 
-        if (! m_book.isRead())
-            m_iv_isClimbed.setVisibility(View.INVISIBLE);
+        if (!m_book.isRead())
+            m_iv_isRead.setVisibility(View.INVISIBLE);
 
         // rattingBar
-        RatingBar rb_bookGrade = (RatingBar) this.findViewById(R.id.rb_book_grade_map);
+        RatingBar rb_bookGrade = (RatingBar) this.findViewById(R.id.rb_book_grade);
         rb_bookGrade.setRating(m_book.getGrade());
 
         // close 버튼
@@ -109,15 +108,10 @@ public class BookDetailActivity extends AppCompatActivity {
         reviewWriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (m_book.isRead()) {
-                    Intent intent = new Intent(view.getContext(), ReviewWriteActivity.class);
-                    Log.d("bookID", "" + m_book.getID());
-                    intent.putExtra("bookID", "" + m_book.getID());
-                    startActivity(intent);
-                } else {
-                    errDialog.setErrorMessage("산을 등반한 후에\n리뷰를 작성해주세요.");
-                    errDialog.show();
-                }
+                Intent intent = new Intent(view.getContext(), ReviewWriteActivity.class);
+                Log.d("bookID", "" + m_book.getID());
+                intent.putExtra("bookID", "" + m_book.getID());
+                startActivity(intent);
             }
         });
 

@@ -96,38 +96,38 @@
                         <TableRow>
 
                             <TextView
-                                android:id="@+id/tv_height"
+                                android:id="@+id/tv_author"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="5dp"
-                                android:text="높이"
+                                android:text="글쓴이"
                                 android:textColor="@color/colorMain"
                                 android:textSize="15dp" />
 
                             <TextView
-                                android:id="@+id/tv_bookHeight"
+                                android:id="@+id/tv_bookAuthor"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="OOOm"
+                                android:text="OOO"
                                 android:textSize="15dp" />
                         </TableRow>
 
                         <TableRow>
 
                             <TextView
-                                android:id="@+id/tv_distance"
+                                android:id="@+id/tv_publisher"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginRight="5dp"
-                                android:text="거리"
+                                android:text="출판사"
                                 android:textColor="@color/colorMain"
                                 android:textSize="15dp" />
 
                             <TextView
-                                android:id="@+id/tv_bookDistance"
+                                android:id="@+id/tv_bookPublisher"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="O.Okm"
+                                android:text="OOO"
                                 android:textSize="15dp" />
                         </TableRow>
 
@@ -146,7 +146,7 @@
                             android:weightSum="1">
 
                             <RatingBar
-                                android:id="@+id/rb_book_grade_map"
+                                android:id="@+id/rb_book_grade"
                                 style="@style/starRatingBar"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -155,7 +155,7 @@
                                 android:stepSize="0.1" />
 
                             <TextView
-                                android:id="@+id/txt_book_grade_map"
+                                android:id="@+id/txt_book_grade"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:paddingLeft="10dp"
@@ -164,7 +164,7 @@
                         </LinearLayout>
 
                         <ImageView
-                            android:id="@+id/img_isClimbed"
+                            android:id="@+id/img_isRead"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
@@ -175,6 +175,57 @@
                 </LinearLayout>
 
             </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:orientation="horizontal">
+
+            <TableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dp">
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/tv_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="분류"
+                        android:textColor="@color/colorMain"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_bookType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="OOO"
+                        android:textSize="15dp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/tv_page"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:text="쪽수"
+                        android:textColor="@color/colorMain"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:id="@+id/tv_bookPage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="OOO"
+                        android:textSize="15dp" />
+                </TableRow>
+
+            </TableLayout>
+        </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_bookIntro"
@@ -182,22 +233,12 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:layout_weight="1"
-                android:text="아름답고 푸른 백두산입니다." />
+                android:text="재밌는 책입니다." />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tv_bookAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:drawableLeft="@drawable/ic_marker_gray"
-                    android:text="OO시 OO구" />
 
                 <RelativeLayout
                     android:id="@+id/map_layout"

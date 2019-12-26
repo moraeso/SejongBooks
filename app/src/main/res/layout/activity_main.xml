@@ -92,7 +92,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="산 랭킹"
+                android:text="고전독서목록"
                 android:textColor="@color/colorBlack"
                 android:textSize="10sp" />
         </LinearLayout>
@@ -116,7 +116,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="지도"
+                android:text="피드"
                 android:textColor="@color/colorBlack"
                 android:textSize="10sp" />
         </LinearLayout>
@@ -140,7 +140,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="내 기록"
+                android:text="내 정보"
                 android:textColor="@color/colorBlack"
                 android:textSize="10sp" />
         </LinearLayout>

@@ -56,7 +56,6 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
     private EditText m_et_bookSearch;
 
     private ArrayList<BookVO> m_bufferItems; // 버퍼로 사용할 리스트
-    private TextView txtCurrentAddress;
 
     private InputMethodManager imm;
 
@@ -64,9 +63,6 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book_list, container, false);
-
-        txtCurrentAddress = view.findViewById(R.id.tv_myAddress);
-        txtCurrentAddress.setText(Constant.CURRENT_ADDRESS);
 
         m_bufferItems = new ArrayList();
 
