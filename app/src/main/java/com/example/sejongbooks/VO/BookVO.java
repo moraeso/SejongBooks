@@ -16,11 +16,12 @@ public class BookVO {
     private float m_grade;
     private Boolean m_isRead;
     private String m_intro; // 산 소개
+    private int m_problem;
 
     public BookVO() {
     }
 
-    public void setBook(int m_id, String m_type, String m_name, String m_author, String m_publisher, int m_date, int m_page, String m_intro, int m_count, float m_grade) {
+    public void setBook(int m_id, String m_type, String m_name, String m_author, String m_publisher, int m_date, int m_page, String m_intro, int m_count, float m_grade, int m_problem) {
         this.m_id = m_id;
         this.m_type = m_type;
         this.m_name = m_name;
@@ -31,6 +32,7 @@ public class BookVO {
         this.m_count = m_count;
         this.m_intro = m_intro;
         this.m_grade = m_grade;
+        this.m_problem = m_problem;
     }
 
     public int getID() {
@@ -126,5 +128,13 @@ public class BookVO {
     }
     public void setRead(Boolean m_isRead) {
         this.m_isRead = m_isRead;
+    }
+
+    public int getProblem() {
+        return m_problem;
+    }
+
+    public void setProblem(int m_problem) {
+        this.m_problem = m_problem;
     }
 }

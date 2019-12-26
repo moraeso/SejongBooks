@@ -7,7 +7,7 @@ public class User {
     String ID;
     String password;
     Bitmap profile;
-    int totalHeight;
+    int totalPages;
     int level;
     int experience;
 
@@ -15,16 +15,16 @@ public class User {
         ID = null;
         password = null;
         profile = null;
-        totalHeight = 0;
+        totalPages = 0;
         level = 1;
         experience = 0;
     }
 
-    public User(String ID, String password, Bitmap profile, int totalHeight, int level, int experience) {
+    public User(String ID, String password, Bitmap profile, int totalPages, int level, int experience) {
         this.ID = ID;
         this.password = password;
         this.profile = profile;
-        this.totalHeight = totalHeight;
+        this.totalPages = totalPages;
         this.level = level;
         this.experience = experience;
     }
@@ -53,12 +53,12 @@ public class User {
         this.profile = profile;
     }
 
-    public int getTotalHeight() {
-        return totalHeight;
+    public int getTotalPages() {
+        return totalPages;
     }
 
-    public void setTotalHeight(int totalHeight) {
-        this.totalHeight = totalHeight;
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
     }
 
     public int getLevel() {
