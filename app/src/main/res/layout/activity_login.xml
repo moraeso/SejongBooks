@@ -16,6 +16,11 @@
         android:layout_height="170dp"
         app:srcCompat="@drawable/logo_rounded" />
 
+    <ImageView
+        android:layout_width="270dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/logo_intro" />
+
     <EditText
         android:id="@+id/edit_id_login"
         android:layout_width="match_parent"
