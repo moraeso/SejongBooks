@@ -19,7 +19,7 @@ public class ProblemTask extends AsyncTask<Void, Void, ArrayList<ProblemVO>> {
 
     public ProblemTask(ContentValues values, AsyncCallback callback) {
         this.m_callback = callback;
-        this.url = "http://15011066.iptime.org:7000/quiz/answer/";
+        this.url = "http://15011066.iptime.org:7000/quiz/answer";
         this.values = values;
     }
 
@@ -36,13 +36,12 @@ public class ProblemTask extends AsyncTask<Void, Void, ArrayList<ProblemVO>> {
             JSONObject jsonObject = new JSONObject(result);
             problemNum = jsonObject.getInt("bookID");
 
-            JSONArray jsonArray = new JSONArray(result);
-
-            for(int i=0;i<jsonArray.length();i++){
-                jsonObject = jsonArray.getJSONObject(i);
+            for(int i = 0; i < 20; i++){
                 answer = jsonObject.getInt("A"+(i+1));
 
-                ProblemVO problemVO = new ProblemVO(""+problemNum+"_"+"Q"+i,answer);
+                ProblemVO problemVO = new ProblemVO(
+                            "http://15011066.iptime.org:7000/quiz/exam/"
+                                    + problemNum+"_"+"Q"+(i+1)+".png", answer);
                 problemVOS.add(problemVO);
             }
 
