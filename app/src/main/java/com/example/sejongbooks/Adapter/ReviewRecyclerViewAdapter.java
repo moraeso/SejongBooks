@@ -134,11 +134,11 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 public void onClick(View view) {
                     int like;
                     if(item.isPic() == true){
-                        item.setPic(false);
-                        item.setLike(item.getLike()-1);
-                        ((ItemViewHolder) holder).m_textView_like.setText(String.valueOf(item.getLike()));
-                        ((ItemViewHolder) holder).m_imageButton_like.setImageResource(R.drawable.heart_uncheck);
-                        connectNetworkLike("http://15011066.iptime.org:8888/api/likecancel/",item);
+//                        item.setPic(false);
+//                        item.setLike(item.getLike()-1);
+//                        ((ItemViewHolder) holder).m_textView_like.setText(String.valueOf(item.getLike()));
+//                        ((ItemViewHolder) holder).m_imageButton_like.setImageResource(R.drawable.heart_uncheck);
+//                        connectNetworkLike("http://15011066.iptime.org:7000/api/likecancel/",item);
                     }
                     else{
                         item.setPic(true);
@@ -146,7 +146,7 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                         ((ItemViewHolder) holder).m_textView_like.setText(String.valueOf(item.getLike()));
                         ((ItemViewHolder) holder).m_imageButton_like.setImageResource(R.drawable.heart);
                         Log.d("like",""+item.getLike());
-                        connectNetworkLike("http://15011066.iptime.org:8888/api/like/",item);
+                        connectNetworkLike("http://15011066.iptime.org:7000/review/like/",item);
                     }
                 }
             });
@@ -174,9 +174,8 @@ public class ReviewRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         ContentValues contentValues = new ContentValues();
         contentValues.put("reviewID",item.getReivewID());
-        contentValues.put("id", MyInfo.getInstance().getUser().getID());
+        contentValues.put("userID", MyInfo.getInstance().getUser().getID());
 
-        Log.d("smh:리뷰보낸거",""+item.getReivewID()+MyInfo.getInstance().getUser().getID());
         NetworkTask networkTask = new NetworkTask(m_url,contentValues);
         networkTask.execute();
     }

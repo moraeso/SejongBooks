@@ -247,14 +247,14 @@ public class LikeReviewActivity extends AppCompatActivity implements SwipeRefres
 
                 int reviewID = jsonObj.getInt("reviewID");
                 String reviewUserID = jsonObj.getString("reviewUserID");
-                int reviewMntID = jsonObj.getInt("reviewMntID");
+                int reviewBookID = jsonObj.getInt("reviewBookID");
                 String reviewString = jsonObj.getString("reviewString");
                 Double reviewStar = jsonObj.getDouble("reviewStar");
-                String reviewPic = jsonObj.getString("reviewPic");
-                int reviewLike = jsonObj.getInt("LIKE");
+                int reviewLike = jsonObj.getInt("LIKECOUNT");
+                Boolean reviewIFLIKE = jsonObj.getBoolean("IFLIKE");
                 final ReviewVO newReview = new ReviewVO();
 
-                newReview.setReview(reviewID, reviewUserID, reviewMntID, reviewString, reviewStar, reviewPic, reviewLike, true);
+                newReview.setReview(reviewID, reviewUserID, reviewBookID, reviewString, reviewStar, reviewLike, reviewIFLIKE);
 
                 getUserImage(newReview);
 

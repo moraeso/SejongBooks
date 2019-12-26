@@ -37,7 +37,7 @@ public class UserImageTask extends AsyncTask<Void, Void, Void> {
             String user_img = userImageUri + m_review.getUserId()+".jpg";
             InputStream is_user = (InputStream) new URL(user_img).getContent();
             if (is_user != null) {
-                Drawable user_drawable = Drawable.createFromStream(is_user, "book" +m_review.getUserId());
+                Drawable user_drawable = Drawable.createFromStream(is_user, "user" +m_review.getUserId());
                 m_review.setUserImage(((BitmapDrawable) user_drawable).getBitmap());
             }
         } catch (Exception e) {

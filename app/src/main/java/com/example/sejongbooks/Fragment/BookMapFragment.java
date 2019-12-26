@@ -148,7 +148,6 @@ public class BookMapFragment extends Fragment implements SwipeRefreshLayout.OnRe
         btn_floating.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("smh:click","111");
                 Intent intent = new Intent(getContext(), FeedWriteActivity.class);
                 startActivity(intent);
             }
@@ -289,8 +288,14 @@ public class BookMapFragment extends Fragment implements SwipeRefreshLayout.OnRe
     public void getFeedImage(FeedVO newFeed) {
         InputStream is = null;
         try {
-            String reviewImg_url = "http://15011066.iptime.org:7000/" + newFeed.getImageName();
-
+            String reviewImg_url;
+            if(!newFeed.getImageName().equals("null")) {
+                reviewImg_url = "http://15011066.iptime.org:7000/" + newFeed.getImageName();
+            }
+            else{
+                reviewImg_url = null;
+                return;
+            }
             is = (InputStream) new URL(reviewImg_url).getContent();
         } catch (IOException e) {
             Drawable drawable = getResources().getDrawable(R.drawable.ic_book_ranking_main);
@@ -309,7 +314,7 @@ public class BookMapFragment extends Fragment implements SwipeRefreshLayout.OnRe
     public void getUserImage(FeedVO newFeed) {
         InputStream is = null;
         try {
-            String userImg_url = "http://15011066.iptime.org:7000/" + newFeed.getUserId() + ".jpg";
+            String userImg_url = "http://15011066.iptime.org:7000/user/image/" + newFeed.getUserId() + ".jpg";
             is = (InputStream) new URL(userImg_url).getContent();
 
         } catch (IOException e) {
@@ -339,7 +344,7 @@ public class BookMapFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 String feedString = jsonObj.getString("feedString");
                 String feedPIC = jsonObj.getString("feedPIC");
                 int reviewLike = 1;
-                int reviewIFLIKE = 1;
+                int reviewIFLIKE = 0;
 
                 final FeedVO newFeed = new FeedVO();
                 if (reviewIFLIKE == 1) {

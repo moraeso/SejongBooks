@@ -92,7 +92,7 @@ public class BookTask extends AsyncTask<Void, Void, Void> {
             }
 
             JSONArray jsonArrayRead = new JSONArray(new JSONObject(result_json_str).getString("readList"));
-            for (int i = 0; i < jsonArray.length(); i++) {
+            for (int i = 0; i < jsonArrayRead.length(); i++) {
                 JSONObject jsonObj = jsonArrayRead.getJSONObject(i);
                 int bookID = jsonObj.getInt("bookID");
 
