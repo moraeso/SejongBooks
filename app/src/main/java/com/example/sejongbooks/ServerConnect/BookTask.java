@@ -92,7 +92,7 @@ public class BookTask extends AsyncTask<Void, Void, Void> {
             }
 
             JSONArray jsonArrayRead = new JSONArray(new JSONObject(result_json_str).getString("readList"));
-            for (int i = 0; i < jsonArray.length(); i++) {
+            for (int i = 0; i < jsonArrayRead.length(); i++) {
                 JSONObject jsonObj = jsonArrayRead.getJSONObject(i);
                 int bookID = jsonObj.getInt("bookID");
 
@@ -123,9 +123,10 @@ public class BookTask extends AsyncTask<Void, Void, Void> {
                 String bookAuthor = jsonObj.getString("bookAuthor");
                 String bookPublisher = jsonObj.getString("bookPublisher");
                 double bookStar = jsonObj.getDouble("bookStar");
+                int problem = jsonObj.getInt("problem");
 
                 BookVO newItem = new BookVO();
-                newItem.setBook(bookID, bookType, bookName, bookAuthor, bookPublisher, bookDate, bookPage, bookInfo, bookCount, (float)bookStar);
+                newItem.setBook(bookID, bookType, bookName, bookAuthor, bookPublisher, bookDate, bookPage, bookInfo, bookCount, (float)bookStar, problem);
 
                 String url_img = Constant.URL + "/cover/book_" + (i + 1) + ".jpg";
                 newItem.setImage(BookManager.getInstance().getBookBitmapFromURL(url_img,"book" + (i + 1)));

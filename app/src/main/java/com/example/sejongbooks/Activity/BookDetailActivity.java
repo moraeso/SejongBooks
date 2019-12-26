@@ -235,4 +235,11 @@ public class BookDetailActivity extends AppCompatActivity implements View.OnClic
         });
         readBookTask.execute();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        finish();
+    }
 }

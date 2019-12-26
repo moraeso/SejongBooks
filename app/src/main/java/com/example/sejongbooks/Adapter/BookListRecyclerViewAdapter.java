@@ -20,6 +20,8 @@ import com.example.sejongbooks.Activity.BookDetailActivity;
 import com.example.sejongbooks.R;
 import com.example.sejongbooks.VO.BookVO;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class BookListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -60,24 +62,12 @@ public class BookListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         if (holder instanceof BookListViewHolder) {
             final BookVO bookVO = m_bookItems.get(position);
 
-            /*
-
-            layout_bookPanel = (CardView) convertView.findViewById(R.id.layout_bookPanel);
-            iv_bookImage = (ImageView) convertView.findViewById(R.id.iv_bookThumbnail);
-            tv_bookName = (TextView) convertView.findViewById(R.id.tv_bookName);
-            tv_bookType = (TextView) convertView.findViewById(R.id.tv_bookType);
-            tv_bookPage = (TextView) convertView.findViewById(R.id.tv_bookPage);
-            tv_bookGrade = (TextView) convertView.findViewById(R.id.txt_book_grade_map);
-            iv_isRead = (ImageView) convertView.findViewById(R.id.img_book_read);
-            rb_bookGrade = (RatingBar) convertView.findViewById(R.id.rb_book_grade_map);
-             */
-
             ((BookListViewHolder) holder).iv_bookImage.setImageBitmap(bookVO.getImage());
             ((BookListViewHolder) holder).tv_bookName.setText(bookVO.getName());
             ((BookListViewHolder) holder).tv_bookType.setText(bookVO.getType());
             ((BookListViewHolder) holder).tv_bookPage.setText(Integer.toString(bookVO.getPage()) + "쪽");
             ((BookListViewHolder) holder).tv_bookGrade.setText(Float.toString(bookVO.getGrade()));
-            ((BookListViewHolder) holder).iv_isRead.setImageResource(R.drawable.ic_flag_isread);
+            ((BookListViewHolder) holder).tv_bookReadCount.setText("총 " + Integer.toString(bookVO.getCount()) + "회");
 
             if (bookVO.isRead()) {
                 ((BookListViewHolder) holder).iv_isRead.setVisibility(View.VISIBLE);
@@ -163,6 +153,7 @@ public class BookListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
         private TextView tv_bookType;
         private TextView tv_bookPage;
         private TextView tv_bookGrade;
+        private TextView tv_bookReadCount;
         private ImageView iv_isRead;
         private RatingBar rb_bookGrade;
         //private boolean isClimbed;
@@ -176,8 +167,9 @@ public class BookListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVi
             tv_bookType = (TextView) convertView.findViewById(R.id.tv_bookType);
             tv_bookPage = (TextView) convertView.findViewById(R.id.tv_bookPage);
             tv_bookGrade = (TextView) convertView.findViewById(R.id.txt_book_grade_map);
-            iv_isRead = (ImageView) convertView.findViewById(R.id.img_book_read);
+            iv_isRead = (ImageView) convertView.findViewById(R.id.iv_book_read);
             rb_bookGrade = (RatingBar) convertView.findViewById(R.id.rb_book_grade_map);
+            tv_bookReadCount = (TextView) convertView.findViewById(R.id.tv_bookReadCount);
             /*
             rb_bookGrade.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override

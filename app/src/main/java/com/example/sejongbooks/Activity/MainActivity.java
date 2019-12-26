@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -20,7 +21,10 @@ import com.example.sejongbooks.Fragment.UserFragment;
 import com.example.sejongbooks.Fragment.SettingFragment;
 import com.example.sejongbooks.Helper.BackPressCloseHandler;
 import com.example.sejongbooks.Helper.Constant;
+import com.example.sejongbooks.Listener.AsyncCallback;
 import com.example.sejongbooks.R;
+import com.example.sejongbooks.ServerConnect.BookTask;
+import com.example.sejongbooks.Singleton.MyInfo;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,33 +59,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         if (curFragment == Constant.FRAGMENT_LIST) {
-            ((BookListFragment)fragment).updateBookList();
+            ((BookListFragment) fragment).updateBookList();
+        } else if (curFragment == Constant.FRAGMENT_USER) {
+            //((UserFragment) fragment).loadUserReadData();
         }
     }
 
-    @Override public void onBackPressed() {
+    @Override
+    public void onBackPressed() {
         backPressCloseHandler.onBackPressed();
     }
 
-    private void getDisplaySize(){
+    private void getDisplaySize() {
         DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
 
-        Constant.WIDTH  = dm.widthPixels;
+        Constant.WIDTH = dm.widthPixels;
         Constant.HEIGHT = dm.heightPixels;
 
     }
 
-    private void initFragment(){
+    private void initFragment() {
         fragment = new BookListFragment();
         fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace( R.id.main_fragment, fragment );
+        fragmentTransaction.replace(R.id.main_fragment, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         curFragment = Constant.FRAGMENT_LIST;
     }
 
-    private void initView(){
+    private void initView() {
         btnBookList = findViewById(R.id.btn_book_list);
         btnBookMap = findViewById(R.id.btn_book_map);
         btnUser = findViewById(R.id.btn_user);
@@ -93,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         selectedSetting = findViewById(R.id.view_selected_setting);
     }
 
-    private void initListener(){
+    private void initListener() {
         btnBookList.setOnClickListener(this);
         btnBookMap.setOnClickListener(this);
         btnUser.setOnClickListener(this);
@@ -105,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.btn_book_list:
                 if (curFragment != Constant.FRAGMENT_LIST) {
+                    curFragment = Constant.FRAGMENT_LIST;
+
                     getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.main_fragment, new BookListFragment())
@@ -123,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btn_book_map:
                 if (curFragment != Constant.FRAGMENT_MAP) {
+                    curFragment = Constant.FRAGMENT_MAP;
 
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -141,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_user:
                 if (curFragment != Constant.FRAGMENT_USER) {
+                    curFragment = Constant.FRAGMENT_USER;
 
                     getSupportFragmentManager()
                             .beginTransaction()
@@ -159,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_setting:
                 if (curFragment != Constant.FRAGMENT_SETTING) {
+                    curFragment = Constant.FRAGMENT_SETTING;
 
                     getSupportFragmentManager()
                             .beginTransaction()

@@ -2,14 +2,10 @@ package com.example.sejongbooks.Fragment;
 
 import android.content.ContentValues;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.media.ExifInterface;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,43 +16,35 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 import com.example.sejongbooks.Activity.LikeReviewActivity;
-import com.example.sejongbooks.Activity.BookDetailActivity;
 import com.example.sejongbooks.Activity.MyReviewActivity;
-import com.example.sejongbooks.Activity.ReviewActivity;
 import com.example.sejongbooks.Helper.Constant;
 import com.example.sejongbooks.Listener.AsyncCallback;
 import com.example.sejongbooks.Popup.FullImagePopup;
 import com.example.sejongbooks.R;
-import com.example.sejongbooks.Adapter.BookClimbedListRecyclerViewAdapter;
+import com.example.sejongbooks.Adapter.BookReadListRecyclerViewAdapter;
 
 import com.example.sejongbooks.Helper.BookListRecyclerViewDecoration;
 
 import com.example.sejongbooks.ServerConnect.BookImageTask;
+import com.example.sejongbooks.ServerConnect.BookTask;
 import com.example.sejongbooks.ServerConnect.PostHttpURLConnection;
 import com.example.sejongbooks.ServerConnect.UserClimbedListTask;
 import com.example.sejongbooks.Singleton.BookManager;
 import com.example.sejongbooks.Singleton.MyInfo;
 import com.example.sejongbooks.VO.BookVO;
-import com.example.sejongbooks.VO.ReviewVO;
 
 
 import org.json.JSONArray;
@@ -65,21 +53,22 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class UserFragment extends Fragment implements BookClimbedListRecyclerViewAdapter.OnLoadMoreListener,
+public class UserFragment extends Fragment implements BookReadListRecyclerViewAdapter.OnLoadMoreListener,
         SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     private RecyclerView m_bookRecycleView;
     private RecyclerView.LayoutManager m_layoutManager;
-    private BookClimbedListRecyclerViewAdapter m_adapter;
+    private BookReadListRecyclerViewAdapter m_adapter;
     private ArrayList<BookVO> m_bufferItems; // 버퍼로 사용할 리스트
 
-    private TextView txtCount1, txtCount2, txtTotalHeight;
-    private int nCount=0;
-    private int nTotalHeight=0;
+    private SwipeRefreshLayout m_swipeRefresh;
+
+    private TextView txtCount1, txtCount2, txtTotalPages;
+    private int m_count=0;
+    private int m_totalPages=0;
 
     private Button btnMyReview, btnLikeReview;
 
@@ -87,7 +76,7 @@ public class UserFragment extends Fragment implements BookClimbedListRecyclerVie
     private ImageView imgProfile;
 
     private String userID, userPW, userPIC;
-    private int totalPages, exp;
+    private int exp;
     private Drawable userDrawable;
     private View vExp;
 
@@ -112,12 +101,12 @@ public class UserFragment extends Fragment implements BookClimbedListRecyclerVie
         m_bookRecycleView.addItemDecoration(new BookListRecyclerViewDecoration(getActivity()));
 
         // 어뎁터 연결
-        m_adapter = new BookClimbedListRecyclerViewAdapter(getContext(), this);
+        m_adapter = new BookReadListRecyclerViewAdapter(getContext(), this);
         m_bookRecycleView.setAdapter(m_adapter);
 
         txtCount1 = view.findViewById(R.id.txt_count_1_user);
         txtCount2 = view.findViewById(R.id.txt_count_2_user);
-        txtTotalHeight = view.findViewById(R.id.txt_height_user);
+        txtTotalPages = view.findViewById(R.id.txt_page_user);
 
         btnMyReview = view.findViewById(R.id.btn_user_my_review);
         btnLikeReview = view.findViewById(R.id.btn_user_like_review);
@@ -130,108 +119,22 @@ public class UserFragment extends Fragment implements BookClimbedListRecyclerVie
         imgProfile = view.findViewById(R.id.img_profile_user);
         vExp = view.findViewById(R.id.view_exp_user);
 
-        // User 등반 리스트 갱신
-        refreshUserClimbedList();
+        // 새로고침
+        m_swipeRefresh = view.findViewById(R.id.swipeRefresh_bookList);
+        m_swipeRefresh.setOnRefreshListener(this);
 
-        m_url = "http://15011066.iptime.org:8888/api/userinfo";
-
-        ContentValues contentValuesUser = new ContentValues();
-        NetworkTask networkTaskUser = new NetworkTask(m_url,contentValuesUser);
-        networkTaskUser.execute();
-
-        loadAll();
+        loadUserReadData();
 
         return view;
     }
 
-    private void refreshUserClimbedList() {
-
-        String url_userClimbedList = Constant.URL + "/api/mntuplist";
-
-        UserClimbedListTask userClimbedListTask = new UserClimbedListTask(
-                url_userClimbedList, new AsyncCallback() {
-            @Override
-            public void onSuccess(Object object) {
-
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-
-            }
-        });
-        userClimbedListTask.execute();
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadUserReadData();
     }
 
 
-    public class NetworkTask extends AsyncTask<Void, Void, String> {
-
-        private String url;
-        private ContentValues values;
-
-        public NetworkTask(String url, ContentValues values) {
-            this.url = url;
-            this.values = values;
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-
-            String result; // 요청 결과를 저장할 변수.
-            PostHttpURLConnection postHttpURLConnection = new PostHttpURLConnection();
-            result = postHttpURLConnection.request(url, values); // 해당 URL로 부터 결과물을 얻어온다.
-            Log.d("user result",result);
-
-            receiveResult(result);
-
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-        }
-    }
-
-    public void receiveResult(String result){
-        try {
-
-            JSONArray jsonArray = new JSONArray(result);
-            Log.d("smh:length",""+jsonArray.length());
-
-            for(int i =0;i<jsonArray.length();i++) {
-                JSONObject jsonObj = jsonArray.getJSONObject(i);
-
-                userID = jsonObj.getString("userID");
-                userPW = jsonObj.getString("userPW");
-                userPIC = jsonObj.getString("userPIC");
-                totalPages = jsonObj.getInt("totalheight");
-                exp = jsonObj.getInt("exp");
-
-                Message msgUser = handlerUser.obtainMessage();
-                handlerUser.sendMessage(msgUser);
-
-                if(userPIC != null){
-                    String url_img = "http://15011066.iptime.org:8888/userimages/" + userPIC;
-                    InputStream is = null;
-                    try {
-                        is = (InputStream) new URL(url_img).getContent();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    userDrawable = Drawable.createFromStream(is, "userPIC");
-
-                    Message msgProfile = handlerImg.obtainMessage();
-                    handlerImg.sendMessage(msgProfile);
-                } else {
-                    Log.v("user profile", "null");
-                }
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     final Handler handlerImg = new Handler()
     {
@@ -278,43 +181,42 @@ public class UserFragment extends Fragment implements BookClimbedListRecyclerVie
             MyInfo.getInstance().getUser().setPassword(userPW);
             MyInfo.getInstance().getUser().setExperience(exp);
             MyInfo.getInstance().getUser().setLevel((exp/1000) + 1);
-            MyInfo.getInstance().getUser().setTotalHeight(totalPages);
+            MyInfo.getInstance().getUser().setTotalPages(m_totalPages);
         }
 
     };
 
-    private void loadAll() {
-        BookImageTask bookImageTask = new BookImageTask(Constant.CLIMBED, new AsyncCallback() {
-            @Override
-            public void onSuccess(Object object) {
-                ArrayList < BookVO > bookList = BookManager.getInstance().getItems();
-                m_bufferItems.clear();
-                for (int i = 0; i < bookList.size(); i++) {
-                    if(bookList.get(i).isRead()) {
-                        m_bufferItems.add(BookManager.getInstance().getItems().get(i));
-                        nCount++;
-                        totalPages+=BookManager.getInstance().getItems().get(i).getPage();
-                    }
-                }
-                m_adapter.addAll(m_bufferItems);
+    public void loadUserReadData() {
+        m_count = 0;
+        m_totalPages = 0;
 
-                txtCount1.setText(String.valueOf(nCount)+"권");
-                txtCount2.setText(String.valueOf(nCount));
-                txtTotalHeight.setText(String.valueOf(nTotalHeight)+"쪽");
+        ArrayList<BookVO> bookList = BookManager.getInstance().getItems();
+        m_bufferItems.clear();
+        for (int i = 0; i < bookList.size(); i++) {
+            if(bookList.get(i).isRead()) {
+                m_bufferItems.add(BookManager.getInstance().getItems().get(i));
+                m_count++;
+                m_totalPages+=BookManager.getInstance().getItems().get(i).getPage();
             }
+        }
+        m_adapter.addAll(m_bufferItems);
 
-            @Override
-            public void onFailure(Exception e) {
-
-            }
-        });
-        bookImageTask.execute();
+        txtCount1.setText(String.valueOf(m_count)+"권");
+        txtCount2.setText(String.valueOf(m_count));
+        txtTotalPages.setText(String.valueOf(m_totalPages)+"쪽");
     }
 
 
     @Override
     public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                m_swipeRefresh.setRefreshing(false);
 
+                loadUserReadData();
+            }
+        }, 1000);
     }
 
     @Override
