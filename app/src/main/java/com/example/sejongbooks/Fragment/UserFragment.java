@@ -29,6 +29,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.sejongbooks.Activity.LikeReviewActivity;
 import com.example.sejongbooks.Activity.MyReviewActivity;
 import com.example.sejongbooks.Helper.Constant;
@@ -126,6 +128,12 @@ public class UserFragment extends Fragment implements BookReadListRecyclerViewAd
         m_swipeRefresh.setOnRefreshListener(this);
 
         loadUserReadData();
+
+        Glide.with(view)
+                .load("http://15011066.iptime.org:7000/user/image/"+ MyInfo.getInstance().getUser().getID() + ".jpg")
+                .apply(new RequestOptions().circleCrop().centerCrop())
+                .error(R.drawable.ic_user_main)
+                .into(imgProfile);
 
         return view;
     }

@@ -2,6 +2,7 @@ package com.example.sejongbooks.Adapter;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
@@ -262,7 +263,7 @@ public class FeedRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.V
 
 
             if(m_imageView_user_image != null) {
-                m_imageView_user_image.setBackground(new ShapeDrawable(new OvalShape()));
+                m_imageView_user_image.setImageResource(R.drawable.ic_user_main);
                 if (Build.VERSION.SDK_INT >= 21) {
                     m_imageView_user_image.setClipToOutline(true);
                 }
