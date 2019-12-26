@@ -49,10 +49,10 @@ public class BookTask extends AsyncTask<Void, Void, Void> {
             PostHttpURLConnection requestHttpURLConnection = new PostHttpURLConnection();
             result = requestHttpURLConnection.request(m_url, m_values);
 
-            if (taskType == Constant.GET_NEW)
-                initBookFromJson(result);
-            else if (taskType == Constant.UPDATE_STAR) {
-                //updateStarFromJson(result);
+            if (taskType == Constant.GET_NEW) {
+                initBookFromJson(new JSONObject(result).getString("bookList"));
+            } else if (taskType == Constant.UPDATE_ITEMS) {
+                updateBookFromJson(result);
             }
         } catch(Exception e) {
             this.m_exception = e;
@@ -72,30 +72,40 @@ public class BookTask extends AsyncTask<Void, Void, Void> {
         }
     }
 
-    /*
-    private void updateStarFromJson(String bookList_json_str) {
+    private void updateBookFromJson(String result_json_str) {
         try {
-            ArrayList<BookVO> BookList = BookManager.getInstance().getItems();
-
-            JSONArray jsonArray = new JSONArray(bookList_json_str);
+            JSONArray jsonArray = new JSONArray(new JSONObject(result_json_str).getString("bookList"));
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObj = jsonArray.getJSONObject(i);
 
-                int mntID = jsonObj.getInt("mntID");
-                double mntStar = jsonObj.getDouble("mntStar");
-                for (BookVO book : BookList) {
-                    if (book.getID() == mntID) {
-                        book.setGrade((float)mntStar);
-                        break;
+                int bookID = jsonObj.getInt("bookID");
+                double bookStar = jsonObj.getDouble("bookStar");
+                int bookCount = jsonObj.getInt("bookCount");
+
+                for (BookVO item : BookManager.getInstance().getItems()) {
+                    if (item.getID() == bookID) {
+                        item.setGrade((float)bookStar);
+                        item.setCount(bookCount);
+                        item.setRead(false);
                     }
                 }
             }
 
-            //BookManager.getInstance().sortBookList(BookManager.getInstance().getCurrentSort());
-        } catch (Exception e) {
+            JSONArray jsonArrayRead = new JSONArray(new JSONObject(result_json_str).getString("readList"));
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObj = jsonArrayRead.getJSONObject(i);
+                int bookID = jsonObj.getInt("bookID");
+
+                for (BookVO item : BookManager.getInstance().getItems()) {
+                    if (item.getID() == bookID) {
+                        item.setRead(true);
+                    }
+                }
+            }
+            } catch (JSONException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     private void initBookFromJson(String bookList_json_str) {
         try {
@@ -109,12 +119,13 @@ public class BookTask extends AsyncTask<Void, Void, Void> {
                 String bookInfo = jsonObj.getString("bookInfo");
                 int bookPage = jsonObj.getInt("bookPage");
                 int bookDate = jsonObj.getInt("bookDate");
+                int bookCount = jsonObj.getInt("bookCount");
                 String bookAuthor = jsonObj.getString("bookAuthor");
                 String bookPublisher = jsonObj.getString("bookPublisher");
                 double bookStar = jsonObj.getDouble("bookStar");
 
                 BookVO newItem = new BookVO();
-                newItem.setBook(bookID, bookType, bookName, bookAuthor, bookPublisher, bookDate, bookPage, bookInfo, (float)bookStar);
+                newItem.setBook(bookID, bookType, bookName, bookAuthor, bookPublisher, bookDate, bookPage, bookInfo, bookCount, (float)bookStar);
 
                 String url_img = Constant.URL + "/cover/book_" + (i + 1) + ".jpg";
                 newItem.setImage(BookManager.getInstance().getBookBitmapFromURL(url_img,"book" + (i + 1)));

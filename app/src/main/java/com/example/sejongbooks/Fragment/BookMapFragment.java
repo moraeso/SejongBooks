@@ -2,7 +2,6 @@ package com.example.sejongbooks.Fragment;
 
 import android.app.ProgressDialog;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -14,8 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -24,14 +21,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.sejongbooks.Activity.ReviewActivity;
 import com.example.sejongbooks.Adapter.FeedRecyclerViewAdapter;
-import com.example.sejongbooks.Adapter.ReviewRecyclerViewAdapter;
 import com.example.sejongbooks.Listener.AsyncCallback;
 import com.example.sejongbooks.R;
 import com.example.sejongbooks.ServerConnect.PostHttpURLConnection;
 import com.example.sejongbooks.VO.FeedVO;
-import com.example.sejongbooks.VO.ReviewVO;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,7 +54,7 @@ public class BookMapFragment extends Fragment implements SwipeRefreshLayout.OnRe
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_book_map, container, false);
+        View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
         initView(view);
 
@@ -278,7 +272,7 @@ public class BookMapFragment extends Fragment implements SwipeRefreshLayout.OnRe
     public void getFeedImage(FeedVO newFeed) {
         InputStream is = null;
         try {
-            String reviewImg_url = "http://15011066.iptime.org:7000/feed/image/" + newFeed.getImageName();
+            String reviewImg_url = "http://15011066.iptime.org:7000/" + newFeed.getImageName();
 
             is = (InputStream) new URL(reviewImg_url).getContent();
         } catch (IOException e) {

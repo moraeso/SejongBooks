@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -21,7 +22,7 @@ import com.example.sejongbooks.Helper.BackPressCloseHandler;
 import com.example.sejongbooks.Helper.Constant;
 import com.example.sejongbooks.R;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     FragmentManager fragmentManager;
     Fragment fragment;
@@ -48,6 +49,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         backPressCloseHandler = new BackPressCloseHandler(this);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (curFragment == Constant.FRAGMENT_LIST) {
+            ((BookListFragment)fragment).updateBookList();
+        }
     }
 
     @Override public void onBackPressed() {

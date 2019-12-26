@@ -1,6 +1,9 @@
 package com.example.sejongbooks.Fragment;
 
+import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,6 +42,7 @@ import com.example.sejongbooks.ServerConnect.BookImageTask;
 import com.example.sejongbooks.ServerConnect.BookTask;
 import com.example.sejongbooks.ServerConnect.UserClimbedListTask;
 import com.example.sejongbooks.Singleton.BookManager;
+import com.example.sejongbooks.Singleton.MyInfo;
 import com.example.sejongbooks.VO.BookVO;
 
 import java.util.ArrayList;
@@ -104,21 +108,6 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
 
         typeFilteringNum = BookManager.getInstance().getItems().size();
 
-        /*
-        ArrayList<BookVO> bookList = BookManager.getInstance().getItems();
-        for(BookVO book : bookList){
-            if (Constant.X != 0.0) {
-                book.setDistance(
-                        Calculator.calculateDistance(
-                                book.getLocX(),
-                                book.getLocY()
-                        )
-                );
-            } else {
-                book.setDistance(0);
-            }
-        }*/
-
         imm = (InputMethodManager)super.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         // EditText 필터
         m_et_bookSearch = (EditText) view.findViewById(R.id.et_bookSearch);
@@ -150,50 +139,6 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
 
         initFilterSpinner(view);
         initSortSpinner(view);
-
-        loadFirstData();
-/*
-        // User 등반 리스트 갱신
-        String url_userClimbedList = Constant.URL + "/book/list";
-        UserClimbedListTask userClimbedListTask = new UserClimbedListTask(url_userClimbedList, new AsyncCallback() {
-            @Override
-            public void onSuccess(Object object) {
-                // 정렬 스피너
-                m_sortSpinner = (Spinner) BookListFragment.super.getView().findViewById(R.id.spinner_bookSort);
-
-                String[] spinnerArray = getResources().getStringArray(R.array.book_sort);
-                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
-                        BookListFragment.super.getContext(), R.layout.spinner_item, spinnerArray);
-                spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-                m_sortSpinner.setAdapter(spinnerArrayAdapter);
-
-                m_sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        // 왜 자꾸 자동으로 실행되는지
-                        Log.d("mmee:BookListFragment", "BookList 정렬");
-                        BookManager.getInstance().sortBookList(adapterView.getItemAtPosition(i).toString());
-                        loadFirstData();
-                        m_bookRecycleView.smoothScrollToPosition(0);
-                        //m_adapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-
-                    }
-                });
-                //sortBookList(m_sortSpinner.getSelectedItem().toString());
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-
-            }
-        });
-        userClimbedListTask.execute();*/
-
-
         return view;
     }
 
@@ -269,18 +214,40 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
             public void run() {
                 m_swipeRefresh.setRefreshing(false);
                 //m_bookItems.clear();
-
                 //loadFirstData();
 
+                updateBookList();
+
+                //m_adapter.notifyDataSetChanged();
+            }
+        }, 1000);
+    }
+
+    public void updateBookList() {
+        String url = Constant.URL + "/book/list";
+
+        ContentValues values = new ContentValues();
+        values.put("userID", MyInfo.getInstance().getUser().getID());
+
+        BookTask bookTask = new BookTask(Constant.UPDATE_ITEMS, url, values, new AsyncCallback() {
+            @Override
+            public void onSuccess(Object object) {
                 m_et_bookSearch.setText("");
                 BookManager.getInstance().sortBookList(m_sortSpinner.getSelectedItem().toString());
 
                 reloadFirstData(selectedBookType);
 
                 m_bookRecycleView.smoothScrollToPosition(0);
-                //m_adapter.notifyDataSetChanged();
+
+                m_adapter.notifyDataSetChanged();
             }
-        }, 1000);
+
+            @Override
+            public void onFailure(Exception e) {
+
+            }
+        });
+        bookTask.execute();
     }
 
     @Override
@@ -395,5 +362,4 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
         typeFilteringNum = cnt;
         m_adapter.filterList(filterItems);
     }
-
 }

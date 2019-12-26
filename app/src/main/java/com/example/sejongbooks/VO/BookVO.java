@@ -12,6 +12,7 @@ public class BookVO {
     private String m_publisher;
     private int m_page;
     private int m_date;
+    private int m_count;
     private float m_grade;
     private Boolean m_isRead;
     private String m_intro; // 산 소개
@@ -19,13 +20,15 @@ public class BookVO {
     public BookVO() {
     }
 
-    public void setBook(int m_id, String m_type, String m_name, String m_author, String m_publisher, int date, int m_page, String m_intro, float m_grade) {
+    public void setBook(int m_id, String m_type, String m_name, String m_author, String m_publisher, int m_date, int m_page, String m_intro, int m_count, float m_grade) {
         this.m_id = m_id;
         this.m_type = m_type;
         this.m_name = m_name;
         this.m_author = m_author;
         this.m_publisher = m_publisher;
         this.m_page = m_page;
+        this.m_date = m_date;
+        this.m_count = m_count;
         this.m_intro = m_intro;
         this.m_grade = m_grade;
     }
@@ -100,6 +103,14 @@ public class BookVO {
 
     public void setGrade(float m_grade) {
         this.m_grade = m_grade;
+    }
+
+    public int getCount() {
+        return m_count;
+    }
+
+    public void setCount(int m_count) {
+        this.m_count = m_count;
     }
 
     public String getIntro() {

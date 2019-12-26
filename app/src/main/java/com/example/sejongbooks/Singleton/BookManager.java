@@ -72,10 +72,6 @@ public class BookManager {
         return loadPercent;
     }
 
-    public void setSelectedBookID(int id) { selectedBookID = id; }
-
-    public int getSelectedBookID() { return selectedBookID; }
-
     public void setCurrentSort(String sort) {
         currentSort = sort;
     }
@@ -145,7 +141,13 @@ public class BookManager {
             Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
                 @Override
                 public int compare(BookVO o1, BookVO o2) {
-                   return 0;
+                    if (o1.getCount() < o2.getCount()) {
+                        return 1;
+                    } else if (o1.getCount() > o2.getCount()) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
                 }
             });
         }

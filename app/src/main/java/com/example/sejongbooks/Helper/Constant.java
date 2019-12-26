@@ -25,7 +25,7 @@ public class Constant {
     // Server Task 타입
     // 산 데이터 Task Type
     public static final int GET_NEW = 1;
-    public static final int UPDATE_STAR = 2;
+    public static final int UPDATE_ITEMS = 2;
 
     // 산 이미지 Task Type
     public static final int FIRST_TEN = 1;

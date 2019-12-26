@@ -175,7 +175,7 @@ public class ReviewWriteActivity extends AppCompatActivity implements View.OnCli
                     @Override
                     public void onSuccess(Object object) {
                         String url = Constant.URL + "/api/mntall";
-                        BookTask bookTask = new BookTask(Constant.UPDATE_STAR, url, null, new AsyncCallback() {
+                        BookTask bookTask = new BookTask(Constant.UPDATE_ITEMS, url, null, new AsyncCallback() {
                             @Override
                             public void onSuccess(Object object) {
                                 finish();
