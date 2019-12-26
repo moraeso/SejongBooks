@@ -128,8 +128,8 @@ public class ReviseUserInformationActivity extends AppCompatActivity implements 
                 setImageRound();
 
                 //유저 이미지 업로드
-                String imageUploadURL = "http://15011066.iptime.org:7000/user/image";
-                String key = "id";
+                String imageUploadURL = "http://15011066.iptime.org:7000/user/uploadimage/";
+                String key = "userID";
                 String value = MyInfo.getInstance().getUser().getID();
 
                 Bitmap review_bitmap = BitmapFactory.decodeFile(getRealFilePath(uri));
