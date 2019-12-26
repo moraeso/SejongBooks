@@ -249,24 +249,17 @@ public class MyReviewActivity extends AppCompatActivity implements SwipeRefreshL
 
                 JSONObject jsonObj = jsonArray.getJSONObject(i);
 
+
                 int reviewID = jsonObj.getInt("reviewID");
                 String reviewUserID = jsonObj.getString("reviewUserID");
-                int reviewMntID = jsonObj.getInt("reviewMntID");
+                int reviewBookID = jsonObj.getInt("reviewBookID");
                 String reviewString = jsonObj.getString("reviewString");
                 Double reviewStar = jsonObj.getDouble("reviewStar");
-                String reviewPic = jsonObj.getString("reviewPic");
-                int reviewLike = jsonObj.getInt("LIKE");
-                int reviewIFLIKE = jsonObj.getInt("IFLIKE");
+                int reviewLike = jsonObj.getInt("LIKECOUNT");
+                Boolean reviewIFLIKE = jsonObj.getBoolean("IFLIKE");
                 final ReviewVO newReview = new ReviewVO();
-                if (reviewIFLIKE == 1) {
-                    newReview.setReview(reviewID, reviewUserID, reviewMntID, reviewString, reviewStar, reviewPic, reviewLike, true);
-                } else {
-                    newReview.setReview(reviewID, reviewUserID, reviewMntID, reviewString, reviewStar, reviewPic, reviewLike, false);
-                }
-
-                getReviewImage(newReview);
+                newReview.setReview(reviewID, reviewUserID, reviewBookID, reviewString, reviewStar, reviewLike, reviewIFLIKE);
                 getUserImage(newReview);
-
                 m_bufferList.add(newReview);
             }
         } catch (JSONException e) {

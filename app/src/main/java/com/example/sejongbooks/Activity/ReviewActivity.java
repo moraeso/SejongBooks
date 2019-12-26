@@ -71,12 +71,13 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
         setContentView(R.layout.activity_review);
 
         initView();
-        m_url = "http://15011066.iptime.org:8888/api/reviewmnt";
+        m_url = "http://15011066.iptime.org:7000/review/";
         Intent intent = getIntent();
         m_bookID = intent.getStringExtra("bookID");
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put("mntID",m_bookID);
+        contentValues.put("bookID",m_bookID);
+        contentValues.put("userID",MyInfo.getInstance().getUser().getID());
 
         NetworkTask networkTask = new NetworkTask(m_url, contentValues, new AsyncCallback() {
             @Override
@@ -258,22 +259,20 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
 
                 int reviewID = jsonObj.getInt("reviewID");
                 String reviewUserID = jsonObj.getString("reviewUserID");
-                int reviewMntID = jsonObj.getInt("reviewMntID");
+                int reviewBookID = jsonObj.getInt("reviewBookID");
                 String reviewString = jsonObj.getString("reviewString");
                 Double reviewStar = jsonObj.getDouble("reviewStar");
-                String reviewPic = jsonObj.getString("reviewPic");
-                int reviewLike = jsonObj.getInt("LIKE");
+                int reviewLike = jsonObj.getInt("LIKECOUNT");
                 int reviewIFLIKE = jsonObj.getInt("IFLIKE");
                 final ReviewVO newReview = new ReviewVO();
-                if (reviewIFLIKE == 1) {
-                    newReview.setReview(reviewID, reviewUserID, reviewMntID, reviewString, reviewStar, reviewPic, reviewLike, true);
-                } else {
-                    newReview.setReview(reviewID, reviewUserID, reviewMntID, reviewString, reviewStar, reviewPic, reviewLike, false);
+
+                if(reviewIFLIKE == 1){
+                    newReview.setReview(reviewID, reviewUserID, reviewBookID, reviewString, reviewStar, reviewLike, true);
                 }
-
-                getReviewImage(newReview);
+                else{
+                    newReview.setReview(reviewID, reviewUserID, reviewBookID, reviewString, reviewStar, reviewLike, false);
+                }
                 getUserImage(newReview);
-
                 m_bufferList.add(newReview);
             }
 
@@ -282,30 +281,10 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
         }
     }
 
-    public void getReviewImage(ReviewVO newReview) {
-        InputStream is = null;
-        try {
-            String reviewImg_url = "http://15011066.iptime.org:8888/reviewimages/" + newReview.getImageName();
-            Log.d("mmee:ReviewActivity", "ImageName: " + newReview.getImageName());
-            is = (InputStream) new URL(reviewImg_url).getContent();
-           } catch (IOException e) {
-            Log.d("mmee:ReviewActivity", "fail to load review image");
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_book_ranking_main);
-            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-
-            e.printStackTrace();
-            return;
-        }
-
-        Drawable review_drawable = Drawable.createFromStream(is, "book" + newReview.getReivewID());
-
-        Log.d("mmee:ReviewActivity", "Get review image");
-    }
-
     public void getUserImage(ReviewVO newReview) {
         InputStream is = null;
         try {
-            String userImg_url = "http://15011066.iptime.org:8888/userimages/" + newReview.getUserId() + ".jpg";
+            String userImg_url = "http://15011066.iptime.org:7000/userimages/" + newReview.getUserId() + ".jpg";
             is = (InputStream) new URL(userImg_url).getContent();
 
         } catch (IOException e) {

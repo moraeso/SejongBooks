@@ -65,7 +65,6 @@ public class ReviewWriteActivity extends AppCompatActivity implements View.OnCli
     //view part
     private int m_bookID;
     private String m_reviewSentURL;
-    private String m_reviewStarURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +77,7 @@ public class ReviewWriteActivity extends AppCompatActivity implements View.OnCli
     }
 
     void initData() {
-        m_reviewSentURL = "http://15011066.iptime.org:8888/api/review";
-        m_reviewStarURL = "http://15011066.iptime.org:8888/api/star";
+        m_reviewSentURL = "http://15011066.iptime.org:7000/review/upload";
 
         Intent intent = getIntent();
         m_bookID = Integer.parseInt(intent.getStringExtra("bookID"));
@@ -149,8 +147,8 @@ public class ReviewWriteActivity extends AppCompatActivity implements View.OnCli
         }
         ContentValues values = new ContentValues();
 
-        values.put("reviewUserID", MyInfo.getInstance().getUser().getID());
-        values.put("reviewMntID", m_bookID);
+        values.put("userID", MyInfo.getInstance().getUser().getID());
+        values.put("bookID", m_bookID);
         values.put("reviewString", editText_review.getText().toString());
         values.put("reviewStar", ratingBar_review.getRating());
 
@@ -159,44 +157,9 @@ public class ReviewWriteActivity extends AppCompatActivity implements View.OnCli
         WriteTask writeTask = new WriteTask(m_reviewSentURL, values, new AsyncCallback() {
             @Override
             public void onSuccess(Object object) {
-                String result = object.toString();
-                String reviewID = null;
-                try {
-                    JSONObject jsonObj = new JSONObject(result);
-                    reviewID = jsonObj.getString("reviewID");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                ContentValues values = new ContentValues();
-                values.put("reviewMntID", m_bookID);
-
-                StarTask starTask = new StarTask(m_reviewStarURL, values, new AsyncCallback() {
-                    @Override
-                    public void onSuccess(Object object) {
-                        String url = Constant.URL + "/api/mntall";
-                        BookTask bookTask = new BookTask(Constant.UPDATE_ITEMS, url, null, new AsyncCallback() {
-                            @Override
-                            public void onSuccess(Object object) {
-                                finish();
-                                Message msgProfile = handlerToast.obtainMessage();
-                                handlerToast.sendMessage(msgProfile);
-                            }
-
-                            @Override
-                            public void onFailure(Exception e) {
-
-                            }
-                        });
-                        bookTask.execute();
-                    }
-
-                    @Override
-                    public void onFailure(Exception e) {
-
-                    }
-                });
-                starTask.execute();
+                finish();
+                Message msgProfile = handlerToast.obtainMessage();
+                handlerToast.sendMessage(msgProfile);
             }
 
             @Override

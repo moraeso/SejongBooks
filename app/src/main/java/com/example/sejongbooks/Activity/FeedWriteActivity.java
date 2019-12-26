@@ -99,7 +99,10 @@ public class FeedWriteActivity extends AppCompatActivity implements View.OnClick
 
         //글자수 제한
         tv_feed_length = findViewById(R.id.tv_feed_length);
-
+        int max = 200;
+        InputFilter[] fArray = new InputFilter[1];
+        fArray[0] = new InputFilter.LengthFilter(max);
+        editText_feed.setFilters(fArray);
         imgAdd = findViewById(R.id.img_add_write);
     }
 
@@ -205,11 +208,6 @@ public class FeedWriteActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void pushSubmitButton(){
-        if(m_uri == null){
-            Toast.makeText(this,"사진을 등록해주세요.",Toast.LENGTH_SHORT).show();
-            return;
-        }
-
         if(editText_feed.getText().length()==0){
             Toast.makeText(this,"리뷰를 작성해주세요.",Toast.LENGTH_SHORT).show();
             return;
@@ -233,6 +231,8 @@ public class FeedWriteActivity extends AppCompatActivity implements View.OnClick
                     e.printStackTrace();
                 }
                Log.d("smh:feedid",feedID);
+
+                if(m_uri != null){
                 Bitmap review_bitmap = BitmapFactory.decodeFile(getRealFilePath(m_uri));
                 Bitmap resize = rotate(review_bitmap, exifDegree);
                 WriteImageTask imageTask = new WriteImageTask(m_feedImageUploadURL,"feedID",feedID,saveBitmapToJpeg(getBaseContext(),resize),new AsyncCallback(){
@@ -246,6 +246,12 @@ public class FeedWriteActivity extends AppCompatActivity implements View.OnClick
                     public void onFailure(Exception e) { }
                 });
                 imageTask.execute();
+                }
+                else{
+                    finish();
+                    Message msgProfile = handlerToast.obtainMessage();
+                    handlerToast.sendMessage(msgProfile);
+                }
             }
             @Override
             public void onFailure(Exception e) {
