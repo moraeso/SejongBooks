@@ -28,6 +28,7 @@ import com.example.sejongbooks.Adapter.FeedRecyclerViewAdapter;
 import com.example.sejongbooks.Listener.AsyncCallback;
 import com.example.sejongbooks.R;
 import com.example.sejongbooks.ServerConnect.PostHttpURLConnection;
+import com.example.sejongbooks.Singleton.MyInfo;
 import com.example.sejongbooks.VO.FeedVO;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -65,9 +66,12 @@ public class BookMapFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
         initView(view);
 
-        m_url = "http://15011066.iptime.org:7000/feed/all";
+        m_url = "http://15011066.iptime.org:7000/feed/all/";
 
-        NetworkTask networkTask = new NetworkTask(m_url , new AsyncCallback() {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("userID", MyInfo.getInstance().getUser().getID());
+
+        NetworkTask networkTask = new NetworkTask(m_url ,contentValues, new AsyncCallback() {
             @Override
             public void onSuccess(Object object) {
                 Log.d("mmee:ReviewActivity","get review success");
@@ -167,7 +171,7 @@ public class BookMapFragment extends Fragment implements SwipeRefreshLayout.OnRe
         private String url;
         private ContentValues values;
 
-        public NetworkTask(String url, AsyncCallback callback) {
+        public NetworkTask(String url,ContentValues values,AsyncCallback callback) {
             this.exception = null;
             this.callback = callback;
             this.url = url;
@@ -343,8 +347,8 @@ public class BookMapFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 String userID = jsonObj.getString("userID");
                 String feedString = jsonObj.getString("feedString");
                 String feedPIC = jsonObj.getString("feedPIC");
-                int reviewLike = 1;
-                int reviewIFLIKE = 0;
+                int reviewLike = jsonObj.getInt("LIKECOUNT");
+                int reviewIFLIKE = jsonObj.getInt("IFLIKE");
 
                 final FeedVO newFeed = new FeedVO();
                 if (reviewIFLIKE == 1) {
