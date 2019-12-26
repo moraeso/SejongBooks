@@ -292,13 +292,13 @@ public class ReviewActivity extends AppCompatActivity implements SwipeRefreshLay
             Log.d("mmee:ReviewActivity", "fail to load review image");
             Drawable drawable = getResources().getDrawable(R.drawable.ic_book_ranking_main);
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-            newReview.setImage(bitmap);
+
             e.printStackTrace();
             return;
         }
 
         Drawable review_drawable = Drawable.createFromStream(is, "book" + newReview.getReivewID());
-        newReview.setImage(((BitmapDrawable) review_drawable).getBitmap());
+
         Log.d("mmee:ReviewActivity", "Get review image");
     }
 
