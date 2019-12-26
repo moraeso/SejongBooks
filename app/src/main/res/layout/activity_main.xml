@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorWhite"
+    android:orientation="vertical"
     tools:context=".Activity.MainActivity">
 
     <RelativeLayout
@@ -23,13 +23,14 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/colorLightGray"/>
+        android:background="@color/colorLightGray" />
 
     <FrameLayout
         android:id="@+id/main_fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></FrameLayout>
+        android:layout_weight="1">
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,28 +45,28 @@
             android:background="@color/colorMain" />
 
         <View
-            android:visibility="invisible"
             android:id="@+id/view_selected_book_map"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/colorMain" />
+            android:background="@color/colorMain"
+            android:visibility="invisible" />
 
         <View
-            android:visibility="invisible"
             android:id="@+id/view_selected_user"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/colorMain" />
+            android:background="@color/colorMain"
+            android:visibility="invisible" />
 
         <View
-            android:visibility="invisible"
             android:id="@+id/view_selected_setting"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/colorMain" />
+            android:background="@color/colorMain"
+            android:visibility="invisible" />
     </LinearLayout>
 
     <LinearLayout
@@ -109,8 +110,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginBottom="3dp"
-                android:scaleType="fitCenter"
                 android:background="@color/colorWhite"
+                android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_map_main" />
 
             <TextView
@@ -133,8 +134,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginBottom="3dp"
-                android:scaleType="fitCenter"
                 android:background="@color/colorWhite"
+                android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_user_main" />
 
             <TextView
@@ -157,8 +158,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 android:layout_marginBottom="3dp"
-                android:scaleType="fitCenter"
                 android:background="@color/colorWhite"
+                android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_settings_main" />
 
             <TextView

@@ -256,8 +256,6 @@ public class LikeReviewActivity extends AppCompatActivity implements SwipeRefres
 
                 newReview.setReview(reviewID, reviewUserID, reviewMntID, reviewString, reviewStar, reviewPic, reviewLike, true);
 
-
-                getReviewImage(newReview);
                 getUserImage(newReview);
 
                 m_bufferList.add(newReview);
@@ -265,23 +263,6 @@ public class LikeReviewActivity extends AppCompatActivity implements SwipeRefres
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    public void getReviewImage(ReviewVO newReview) {
-        InputStream is = null;
-        try {
-            String reviewImg_url = "http://15011066.iptime.org:8888/reviewimages/" + newReview.getImageName();
-            //Log.d("mmee:ReviewActivity", "url : " + reviewImg_url + "\nininputStream : " + is.toString());
-            is = (InputStream) new URL(reviewImg_url).getContent();
-        } catch (IOException e) {
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_book_ranking_main);
-            Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-            e.printStackTrace();
-            return;
-        }
-
-        Drawable review_drawable = Drawable.createFromStream(is, "book" + newReview.getReivewID());
-        Log.d("mmee:ReviewActivity", "Get review image");
     }
 
     public void getUserImage(ReviewVO newReview) {

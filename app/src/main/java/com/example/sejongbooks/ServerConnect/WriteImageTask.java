@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.example.sejongbooks.Listener.AsyncCallback;
+import com.example.sejongbooks.Singleton.MyInfo;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -36,8 +37,6 @@ public class WriteImageTask extends AsyncTask<Void, Void, String> {
         this.m_filePath = filePath;
         this.m_callback = m_callback;
     }
-
-
 
     @Override
     protected void onPreExecute() {
@@ -75,6 +74,8 @@ public class WriteImageTask extends AsyncTask<Void, Void, String> {
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("POST");
             con.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+            con.setRequestProperty("userid", MyInfo.getInstance().getUser().getID());
+            con.setRequestProperty("x-access-token", MyInfo.getInstance().getToken());
             con.setDoInput(true);
             con.setDoOutput(true);
 
@@ -83,7 +84,7 @@ public class WriteImageTask extends AsyncTask<Void, Void, String> {
             wr.writeBytes("\r\n--" + boundary + "\r\n");
             wr.writeBytes("Content-Disposition: form-data; name=\""+ key +"\"\r\n\r\n" + value);
             wr.writeBytes("\r\n--" + boundary + "\r\n");
-            wr.writeBytes("Content-Disposition: form-data; name=\"img\"; filename=\"image.jpg\"\r\n");
+            wr.writeBytes("Content-Disposition: form-data; name=\"image\"; filename=\"image.jpg\"\r\n");
             wr.writeBytes("Content-Type: application/octet-stream\r\n\r\n");
             FileInputStream fileInputStream = new FileInputStream(m_filePath);
             int bytesAvailable = fileInputStream.available();

@@ -19,7 +19,7 @@ public class UserImageTask extends AsyncTask<Void, Void, Void> {
     private ReviewVO m_review;
 
     public UserImageTask(ReviewVO review, AsyncCallback m_callback) {
-        userImageUri = "http://15011066.iptime.org:8888/userimages/";
+        userImageUri = "http://15011066.iptime.org:7000/";
         this.m_review = review;
         this.m_callback = m_callback;
     }
