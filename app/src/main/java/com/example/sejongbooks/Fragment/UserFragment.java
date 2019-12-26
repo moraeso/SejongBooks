@@ -135,8 +135,6 @@ public class UserFragment extends Fragment implements BookReadListRecyclerViewAd
                 .error(R.drawable.ic_user_main)
                 .into(imgProfile);
 
-        txtID.setText(MyInfo.getInstance().getUser().getID());
-
         return view;
     }
 

@@ -261,6 +261,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         LoginTask loginTask = new LoginTask(url, values, new AsyncCallback() {
             @Override
             public void onSuccess(Object object) {
+                MyInfo.getInstance().getUser().setID(editID.getText().toString());
                 switchActivityToMain();
             }
 
