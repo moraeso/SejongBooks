@@ -68,7 +68,7 @@ public class ReviseUserInformationActivity extends AppCompatActivity implements 
         if(MyInfo.getInstance().getUser().getID() != null)
             txtID.setText(MyInfo.getInstance().getUser().getID());
 
-        String url = "http://15011066.iptime.org:7000/user/image/";
+        String url = "http://15011066.iptime.org:8888/userimages/";
         NetworkTask networkTask = new NetworkTask(url, new AsyncCallback() {
             @Override
             public void onSuccess(Object object) {
@@ -128,7 +128,7 @@ public class ReviseUserInformationActivity extends AppCompatActivity implements 
                 setImageRound();
 
                 //유저 이미지 업로드
-                String imageUploadURL = "http://15011066.iptime.org:7000/user/image";
+                String imageUploadURL = "http://15011066.iptime.org:8888/userimageup";
                 String key = "id";
                 String value = MyInfo.getInstance().getUser().getID();
 
@@ -180,9 +180,13 @@ public class ReviseUserInformationActivity extends AppCompatActivity implements 
 
     //갤러리 접근 권한 설정
     private void checkPermission(){
+
         int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+
         if (permissionCheck!= PackageManager.PERMISSION_GRANTED) {
+
             Log.v("갤러리 권한","권한 승인이 필요합니다");
+
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 Log.v("갤러리 권한","갤러리 사용을 위해 권한이 필요합니다.");
@@ -202,7 +206,9 @@ public class ReviseUserInformationActivity extends AppCompatActivity implements 
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
                     Log.v("갤러리 권한","승인이 허가되어 있습니다.");
+
                 } else {
                     Log.v("갤러리 권한","아직 승인받지 않았습니다.");
                 }
@@ -213,16 +219,21 @@ public class ReviseUserInformationActivity extends AppCompatActivity implements 
     }
 
     public String getRealFilePath(Uri contentUri) {
+
         String[] proj = { MediaStore.Images.Media.DATA };
         Log.d("smh:uri",""+contentUri.toString());
+
         Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
         cursor.moveToNext();
         String path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA));
         Uri uri = Uri.fromFile(new File(path));
+
         Log.d("smh:", "getRealfilepath(), path : " + uri.toString());
+
         cursor.close();
         return path;
     }
+
 
    @Override
     public void onClick(View view) {
