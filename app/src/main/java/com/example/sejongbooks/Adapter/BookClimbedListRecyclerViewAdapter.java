@@ -51,13 +51,13 @@ public class BookClimbedListRecyclerViewAdapter extends RecyclerView.Adapter<Rec
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final BookVO bookVO = m_bookItems.get(position);
 
-        ((BookListViewHolder) holder).iv_bookThumbnail.setImageBitmap(bookVO.getThumbnail());
+        ((BookListViewHolder) holder).iv_bookThumbnail.setImageBitmap(bookVO.getImage());
         ((BookListViewHolder) holder).tv_bookName.setText(bookVO.getName());
-        ((BookListViewHolder) holder).tv_bookHeight.setText(Integer.toString(bookVO.getHeight()) + "m");
+        ((BookListViewHolder) holder).tv_bookHeight.setText(Integer.toString(bookVO.getID()) + "m");
         ((BookListViewHolder) holder).tv_bookGrade.setText(Float.toString(bookVO.getGrade()));
         ((BookListViewHolder) holder).iv_isClimbed.setImageResource(R.drawable.ic_flag_isclimbed);
 
-        float distance = bookVO.getDistance();
+        float distance = bookVO.getGrade();
         if (distance < 1.0f) {
             ((BookListViewHolder) holder).tv_bookDistance.setText(Integer.toString((int) (distance * 1000)) + "m");
         } else {
@@ -149,7 +149,7 @@ public class BookClimbedListRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             tv_bookHeight = (TextView) convertView.findViewById(R.id.tv_bookHeight);
             tv_bookDistance = (TextView) convertView.findViewById(R.id.tv_bookDistance);
             tv_bookGrade = (TextView) convertView.findViewById(R.id.txt_book_grade_map);
-            iv_isClimbed = (ImageView) convertView.findViewById(R.id.img_book_climbed_map);
+            iv_isClimbed = (ImageView) convertView.findViewById(R.id.img_book_read);
             rb_bookGrade = (RatingBar) convertView.findViewById(R.id.rb_book_grade_map);
             /*
             rb_bookGrade.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {

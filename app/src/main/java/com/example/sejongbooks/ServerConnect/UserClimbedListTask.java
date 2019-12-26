@@ -69,7 +69,7 @@ public class UserClimbedListTask extends AsyncTask<Void, Void, Void> {
 
             // user 등반 기록 false로 초기화
             for (BookVO book : bookList) {
-                book.setClimb(false);
+                book.setRead(false);
             }
 
             // 순회하며 등반 기록 적용
@@ -79,7 +79,7 @@ public class UserClimbedListTask extends AsyncTask<Void, Void, Void> {
                 int mntID = jsonObj.getInt("mntID");
                 for (BookVO book : bookList) {
                     if (book.getID() == mntID) {
-                        book.setClimb(true);
+                        book.setRead(true);
                        break;
                     }
                 }

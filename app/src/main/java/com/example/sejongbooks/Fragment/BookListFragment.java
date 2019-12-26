@@ -146,8 +146,35 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
             }
         });
 
+
+        m_sortSpinner = (Spinner) view.findViewById(R.id.spinner_bookSort);
+
+        String[] spinnerArray = getResources().getStringArray(R.array.book_sort);
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+                BookListFragment.super.getContext(), R.layout.spinner_item, spinnerArray);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        m_sortSpinner.setAdapter(spinnerArrayAdapter);
+
+        m_sortSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                // 왜 자꾸 자동으로 실행되는지
+                Log.d("mmee:BookListFragment", "BookList 정렬");
+                BookManager.getInstance().sortBookList(adapterView.getItemAtPosition(i).toString());
+                loadFirstData();
+                m_bookRecycleView.smoothScrollToPosition(0);
+                //m_adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        //sortBookList(m_sortSpinner.getSelectedItem().toString());
+/*
         // User 등반 리스트 갱신
-        String url_userClimbedList = Constant.URL + "/api/mntuplist";
+        String url_userClimbedList = Constant.URL + "/book/list";
         UserClimbedListTask userClimbedListTask = new UserClimbedListTask(url_userClimbedList, new AsyncCallback() {
             @Override
             public void onSuccess(Object object) {
@@ -184,7 +211,8 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
 
             }
         });
-        userClimbedListTask.execute();
+        userClimbedListTask.execute();*/
+
 
         return view;
     }
@@ -233,10 +261,10 @@ public class BookListFragment extends Fragment implements BookListRecyclerViewAd
 
                 m_bufferItems.clear();
                 for (int i = start; i < end; i++) {
-                    if (bookList.get(i).getThumbnail() == null) {
+                    if (bookList.get(i).getImage() == null) {
                         int id = bookList.get(i).getID();
                         String url_img = Constant.URL + "/basicImages/" + id + ".jpg";
-                        bookList.get(i).setThumbnail(BookManager.getInstance().getBookBitmapFromURL(url_img, "book" + id));
+                        bookList.get(i).setImage(BookManager.getInstance().getBookBitmapFromURL(url_img, "book" + id));
                         Log.d("mmee:loadMore", "get book resource " + id);
                     }
                     m_bufferItems.add(bookList.get(i));

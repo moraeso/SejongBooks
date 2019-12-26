@@ -1,115 +1,119 @@
 package com.example.sejongbooks.VO;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 
 public class BookVO {
 
     private int m_id;
-    private Bitmap m_thumbnail;
+    private Bitmap m_image;
+    private String m_type;
     private String m_name;
-    private int m_height;
-    private float m_distance;
+    private String m_author;
+    private String m_publisher;
+    private int m_page;
+    private int m_date;
     private float m_grade;
-    private Boolean m_isClimbed;
-    private double m_x, m_y;
-    private String m_address; // 주소
+    private Boolean m_isRead;
     private String m_intro; // 산 소개
 
     public BookVO() {
     }
 
-    //  "mntID": 1,
-    //  "mntName": "개운산",
-    //  "mntHeight": "134",
-    //  "mntInfo": "개운산입니다.",
-    //  "mntPlace": "서울특별시 성북구 종암동",
-    //  "mntStar": 4.5,
-    //  "mntLocX": "37.598068",
-    //  "mntLocY": "127.025347"
-
-    public void setBook(int id, String name, int height, String intro, String address, float grade, double x, double y) {
-        this.m_id = id;
-        this.m_name = name;
-        this.m_height = height;
-        this.m_intro = intro;
-        this.m_address = address;
-        this.m_grade = grade;
-        this.m_x = x;
-        this.m_y = y;
+    public void setBook(int m_id, String m_type, String m_name, String m_author, String m_publisher, int date, int m_page, String m_intro, float m_grade) {
+        this.m_id = m_id;
+        this.m_type = m_type;
+        this.m_name = m_name;
+        this.m_author = m_author;
+        this.m_publisher = m_publisher;
+        this.m_page = m_page;
+        this.m_intro = m_intro;
+        this.m_grade = m_grade;
     }
-
-    /*
-    public BookVO(Drawable thumbnail, String name, int height, float distance, float grade, Boolean isClimbed)
-    {
-        this.m_thumbnail = thumbnail;
-        this.m_name = name;
-        this.m_height = height;
-        this.m_distance = distance;
-        this.m_grade = grade;
-        this.m_isClimbed = isClimbed;
-    }
-    */
 
     public int getID() {
         return m_id;
     }
-    public void setID(int id) {
-        this.m_id = id;
+
+    public void setID(int m_id) {
+        this.m_id = m_id;
     }
 
-    public Bitmap getThumbnail() {
-        return m_thumbnail;
+    public Bitmap getImage() {
+        return m_image;
     }
-    public void setThumbnail(Bitmap thumbnail) {
-        this.m_thumbnail = thumbnail;
+
+    public void setImage(Bitmap m_image) {
+        this.m_image = m_image;
+    }
+
+    public String getType() {
+        return m_type;
+    }
+
+    public void setType(String m_type) {
+        this.m_type = m_type;
     }
 
     public String getName() {
         return m_name;
     }
-    public void setName(String name) {
-        this.m_name = name;
+
+    public void setName(String m_name) {
+        this.m_name = m_name;
     }
 
-    public int getHeight() { return m_height; }
-    public void setHeight(int height) {
-        this.m_height = height;
+    public String getAuthor() {
+        return m_author;
     }
 
-    public float getDistance() {
-        return Math.round(m_distance * 1000) / 1000.0f;
+    public int getPage() {
+        return m_page;
     }
-    public void setDistance(float distance) {
-        this.m_distance = distance;
+
+    public int getDate() {
+        return m_date;
+    }
+
+    public void setDate(int m_date) {
+        this.m_date = m_date;
+    }
+
+    public void setPage(int m_page) {
+        this.m_page = m_page;
+    }
+
+    public void setAuthor(String m_author) {
+        this.m_author = m_author;
+    }
+
+    public String getPublisher() {
+        return m_publisher;
+    }
+
+    public void setPublisher(String m_publisher) {
+        this.m_publisher = m_publisher;
     }
 
     public float getGrade() {
-        return Math.round(m_grade * 10) / 10.0f;
+        return m_grade;
     }
-    public void setGrade(float grade) { this.m_grade = grade; }
 
-    public double getLocX() { return m_x; }
-    public double getLocY() { return m_y; }
-
-    public String getAddress() {
-        return m_address;
-    }
-    public void setAddress(String address) {
-        this.m_address = address;
+    public void setGrade(float m_grade) {
+        this.m_grade = m_grade;
     }
 
     public String getIntro() {
         return m_intro;
     }
-    public void setIntro(String intro) {
-        this.m_intro = intro;
+
+    public void setIntro(String m_intro) {
+        this.m_intro = m_intro;
     }
 
-    public boolean isClimbed() {
-        return m_isClimbed;
+    public boolean isRead() {
+        return m_isRead;
     }
-    public void setClimb(Boolean bClimb) {
-        this.m_isClimbed = bClimb;
+    public void setRead(Boolean m_isRead) {
+        this.m_isRead = m_isRead;
     }
 }

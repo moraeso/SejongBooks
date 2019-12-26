@@ -67,7 +67,7 @@ public class PostHttpURLConnection {
             urlConn.setDoInput(true);
             urlConn.setDoOutput(true);
 
-            urlConn.setRequestProperty("id", MyInfo.getInstance().getUser().getID());
+            urlConn.setRequestProperty("userid", MyInfo.getInstance().getUser().getID());
             urlConn.setRequestProperty("x-access-token", MyInfo.getInstance().getToken());
             Log.d("mmee:PostRequest", "id : " + MyInfo.getInstance().getUser().getID());
             Log.d("mmee:PostRequest", "token : " + MyInfo.getInstance().getToken());

@@ -2,6 +2,9 @@ package com.example.sejongbooks.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,6 +16,9 @@ import com.example.sejongbooks.Listener.AsyncCallback;
 import com.example.sejongbooks.R;
 import com.example.sejongbooks.ServerConnect.BookTask;
 import com.example.sejongbooks.Singleton.BookManager;
+import com.example.sejongbooks.VO.BookVO;
+
+import java.lang.reflect.Field;
 
 public class IntroActivity extends AppCompatActivity {
 
@@ -35,7 +41,7 @@ public class IntroActivity extends AppCompatActivity {
     }
 
     private void initBookList() {
-        BookManager.getInstance().setLoadPercent(0);
+        //BookManager.getInstance().setLoadPercent(0);
         BookManager.getInstance().getItems().clear();
         loadBookData();
     }
@@ -72,7 +78,7 @@ public class IntroActivity extends AppCompatActivity {
 
     private void loadBookData() {
         // 산 URL 설정
-        String url = Constant.URL + "/api/mntall";
+        String url = Constant.URL + "/book/list";
 
         // execute, 산 리스트 생성 및 저장
         BookTask bookTask = new BookTask(Constant.GET_NEW, url, null, new AsyncCallback() {

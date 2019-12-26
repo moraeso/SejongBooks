@@ -50,6 +50,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
 
         initUser();
+
         if (BookManager.getInstance().getItems().isEmpty()) {
             Intent intent = new Intent(this, IntroActivity.class);
             startActivity(intent);
@@ -250,11 +251,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void postLogin() {
         // ID PW 설정
         ContentValues values = new ContentValues();
-        values.put("id", editID.getText().toString());
-        values.put("pw", editPass.getText().toString());
+        values.put("userID", editID.getText().toString());
+        values.put("userPW", editPass.getText().toString());
 
         // 로그인 URL 설정
-        String url = Constant.URL + "/api/login";
+        String url = Constant.URL + "/user/login";
 
         // execute 및 MyInfo에 토큰 저장
         LoginTask loginTask = new LoginTask(url, values, new AsyncCallback() {

@@ -7,16 +7,17 @@ import com.example.sejongbooks.Helper.Constant;
 import com.example.sejongbooks.Listener.AsyncCallback;
 import com.example.sejongbooks.Singleton.MyInfo;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginTask extends AsyncTask<Void, Void, Void>  {
+public class LoginTask extends AsyncTask<Void, Void, Void> {
     private AsyncCallback m_callback;
     private Exception m_exception;
     String url;
     ContentValues values;
 
-    public LoginTask(String url, ContentValues values, AsyncCallback callback){
+    public LoginTask(String url, ContentValues values, AsyncCallback callback) {
         this.m_callback = callback;
         this.url = url;
         this.values = values;
@@ -47,8 +48,10 @@ public class LoginTask extends AsyncTask<Void, Void, Void>  {
             MyInfo.getInstance().setToken(str);
 
             // 유저 ID, Password 설정
-            MyInfo.getInstance().getUser().setID(values.getAsString("id"));
-            MyInfo.getInstance().getUser().setPassword(values.getAsString("pw"));
+            MyInfo.getInstance().getUser().setID(values.getAsString("userID"));
+            MyInfo.getInstance().getUser().setPassword(values.getAsString("userPW"));
+
+            loadUserReadBook(new JSONObject(result).getString("bookList"));
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,6 +59,19 @@ public class LoginTask extends AsyncTask<Void, Void, Void>  {
         }
 
         return null; // 결과가 여기에 담깁니다. 아래 onPostExecute()의 파라미터로 전달됩니다.
+    }
+
+    private void loadUserReadBook(String json_str) {
+
+        try {
+            JSONArray jsonArray = new JSONArray(json_str);
+            for (int i = 0; i < jsonArray.length(); i++) {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

@@ -48,12 +48,12 @@ public class BookDetailActivity extends AppCompatActivity {
 
         //Log.d("mmee:initActivityWidget","Thumbnail : " + m_book.getThumbnail());
         ImageView m_iv_bookThumbnail = (ImageView) this.findViewById(R.id.iv_bookThumbnail);
-        m_iv_bookThumbnail.setImageBitmap(m_book.getThumbnail());
+        m_iv_bookThumbnail.setImageBitmap(m_book.getImage());
 
         m_iv_bookThumbnail.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                FullImagePopup fullImagePopup = new FullImagePopup(BookDetailActivity.this, m_book.getThumbnail());
+                FullImagePopup fullImagePopup = new FullImagePopup(BookDetailActivity.this, m_book.getImage());
                 fullImagePopup.show();
                 return false;
             }
@@ -63,10 +63,10 @@ public class BookDetailActivity extends AppCompatActivity {
         m_tv_bookName.setText(m_book.getName());
 
         TextView m_tv_bookHeight = (TextView) this.findViewById(R.id.tv_bookHeight);
-        m_tv_bookHeight.setText(Integer.toString(m_book.getHeight()) + "m");
+        m_tv_bookHeight.setText(Integer.toString(m_book.getID()) + "m");
 
         TextView m_tv_bookDistance = (TextView) this.findViewById(R.id.tv_bookDistance);
-        float distance = m_book.getDistance();
+        float distance = m_book.getGrade();
         if (distance < 1.0f) {
             m_tv_bookDistance.setText(Integer.toString((int)(distance * 1000)) + "m");
         } else {
@@ -76,14 +76,14 @@ public class BookDetailActivity extends AppCompatActivity {
         m_tv_bookGrade.setText(Float.toString(m_book.getGrade()));
 
         TextView m_tv_bookAddress = (TextView) this.findViewById(R.id.tv_bookAddress);
-        m_tv_bookAddress.setText(m_book.getAddress());
+        m_tv_bookAddress.setText(m_book.getAuthor());
 
         TextView m_tv_bookIntro = (TextView) this.findViewById(R.id.tv_bookIntro);
         m_tv_bookIntro.setText(m_book.getIntro());
 
         ImageView m_iv_isClimbed = (ImageView) this.findViewById(R.id.img_isClimbed);
 
-        if (! m_book.isClimbed())
+        if (! m_book.isRead())
             m_iv_isClimbed.setVisibility(View.INVISIBLE);
 
         // rattingBar
@@ -109,7 +109,7 @@ public class BookDetailActivity extends AppCompatActivity {
         reviewWriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (m_book.isClimbed()) {
+                if (m_book.isRead()) {
                     Intent intent = new Intent(view.getContext(), ReviewWriteActivity.class);
                     Log.d("bookID", "" + m_book.getID());
                     intent.putExtra("bookID", "" + m_book.getID());

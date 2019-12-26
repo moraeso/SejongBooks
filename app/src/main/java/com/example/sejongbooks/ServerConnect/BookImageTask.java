@@ -33,10 +33,10 @@ public class BookImageTask extends AsyncTask<Void, Void, Void> {
             switch(taskType) {
                 case Constant.FIRST_TEN:
                     for (int i = 0; i < 10; i++) {
-                        if (bookList.get(i).getThumbnail() == null) {
+                        if (bookList.get(i).getImage() == null) {
                             int id = bookList.get(i).getID();
                             String url_img = Constant.URL + "/basicImages/" + id + ".jpg";
-                            bookList.get(i).setThumbnail(BookManager.getInstance().getBookBitmapFromURL(url_img, "book" + id));
+                            bookList.get(i).setImage(BookManager.getInstance().getBookBitmapFromURL(url_img, "book" + id));
                             Log.d("mmee:BookImageTask", "get book resource " + id);
                         }
                     }
@@ -44,10 +44,10 @@ public class BookImageTask extends AsyncTask<Void, Void, Void> {
 
                 case Constant.CLIMBED:
                     for (BookVO book : BookManager.getInstance().getItems()) {
-                        if (book.isClimbed() && book.getThumbnail() == null) {
+                        if (book.isRead() && book.getImage() == null) {
                             int id = book.getID();
                             String url_img = Constant.URL + "/basicImages/" + id + ".jpg";
-                            book.setThumbnail(BookManager.getInstance().getBookBitmapFromURL(url_img, "book" + id));
+                            book.setImage(BookManager.getInstance().getBookBitmapFromURL(url_img, "book" + id));
                             Log.d("mmee:BookImageTask", "get book resource " + id);
                         }
                     }

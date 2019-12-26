@@ -5,6 +5,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import com.example.sejongbooks.R;
 import com.example.sejongbooks.VO.BookVO;
 
 import java.io.IOException;
@@ -99,39 +100,26 @@ public class BookManager {
                     }
                 }
             });
-        } else if (str.equals("가까운 순")) {
+        } else if (str.equals("페이지 ↑")) {
             Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
                 @Override
                 public int compare(BookVO o1, BookVO o2) {
-                    if (o1.getDistance() > o2.getDistance()) {
+                    if (o1.getPage() < o2.getPage()) {
                         return 1;
-                    } else if (o1.getDistance() < o2.getDistance()) {
+                    } else if (o1.getPage() > o2.getPage()) {
                         return -1;
                     } else {
                         return 0;
                     }
                 }
             });
-        } else if (str.equals("산 높이 ↑")) {
+        } else if (str.equals("페이지 ↓")) {
             Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
                 @Override
                 public int compare(BookVO o1, BookVO o2) {
-                    if (o1.getHeight() < o2.getHeight()) {
+                    if (o1.getPage() > o2.getPage()) {
                         return 1;
-                    } else if (o1.getHeight() > o2.getHeight()) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                }
-            });
-        } else if (str.equals("산 높이 ↓")) {
-            Collections.sort(BookManager.getInstance().getItems(), new Comparator<BookVO>() {
-                @Override
-                public int compare(BookVO o1, BookVO o2) {
-                    if (o1.getHeight() > o2.getHeight()) {
-                        return 1;
-                    } else if (o1.getHeight() < o2.getHeight()) {
+                    } else if (o1.getPage() < o2.getPage()) {
                         return -1;
                     } else {
                         return 0;

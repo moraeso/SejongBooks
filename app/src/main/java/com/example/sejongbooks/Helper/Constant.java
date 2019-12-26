@@ -14,7 +14,7 @@ public class Constant {
     public static String ADMIN_ID = "admin";
     public static String ADMIN_PW = "1234";
 
-    public static String URL = "http://15011066.iptime.org:8888";
+    public static String URL = "http://15011066.iptime.org:7000";
 
     // Fragment Type
     public static final int FRAGMENT_LIST = 1;

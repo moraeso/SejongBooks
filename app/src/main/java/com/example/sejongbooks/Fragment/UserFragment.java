@@ -87,7 +87,7 @@ public class UserFragment extends Fragment implements BookClimbedListRecyclerVie
     private ImageView imgProfile;
 
     private String userID, userPW, userPIC;
-    private int totalheight, exp;
+    private int totalPages, exp;
     private Drawable userDrawable;
     private View vExp;
 
@@ -205,7 +205,7 @@ public class UserFragment extends Fragment implements BookClimbedListRecyclerVie
                 userID = jsonObj.getString("userID");
                 userPW = jsonObj.getString("userPW");
                 userPIC = jsonObj.getString("userPIC");
-                totalheight = jsonObj.getInt("totalheight");
+                totalPages = jsonObj.getInt("totalheight");
                 exp = jsonObj.getInt("exp");
 
                 Message msgUser = handlerUser.obtainMessage();
@@ -278,7 +278,7 @@ public class UserFragment extends Fragment implements BookClimbedListRecyclerVie
             MyInfo.getInstance().getUser().setPassword(userPW);
             MyInfo.getInstance().getUser().setExperience(exp);
             MyInfo.getInstance().getUser().setLevel((exp/1000) + 1);
-            MyInfo.getInstance().getUser().setTotalHeight(totalheight);
+            MyInfo.getInstance().getUser().setTotalHeight(totalPages);
         }
 
     };
@@ -290,10 +290,10 @@ public class UserFragment extends Fragment implements BookClimbedListRecyclerVie
                 ArrayList < BookVO > bookList = BookManager.getInstance().getItems();
                 m_bufferItems.clear();
                 for (int i = 0; i < bookList.size(); i++) {
-                    if(bookList.get(i).isClimbed()) {
+                    if(bookList.get(i).isRead()) {
                         m_bufferItems.add(BookManager.getInstance().getItems().get(i));
                         nCount++;
-                        nTotalHeight+=BookManager.getInstance().getItems().get(i).getHeight();
+                        totalPages+=BookManager.getInstance().getItems().get(i).getPage();
                     }
                 }
                 m_adapter.addAll(m_bufferItems);

@@ -1,11 +1,15 @@
 package com.example.sejongbooks.ServerConnect;
 
 import android.content.ContentValues;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.sejongbooks.Helper.Constant;
 import com.example.sejongbooks.Listener.AsyncCallback;
+import com.example.sejongbooks.R;
 import com.example.sejongbooks.Singleton.BookManager;
 import com.example.sejongbooks.VO.BookVO;
 
@@ -13,6 +17,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -47,7 +52,7 @@ public class BookTask extends AsyncTask<Void, Void, Void> {
             if (taskType == Constant.GET_NEW)
                 initBookFromJson(result);
             else if (taskType == Constant.UPDATE_STAR) {
-                updateStarFromJson(result);
+                //updateStarFromJson(result);
             }
         } catch(Exception e) {
             this.m_exception = e;
@@ -67,6 +72,7 @@ public class BookTask extends AsyncTask<Void, Void, Void> {
         }
     }
 
+    /*
     private void updateStarFromJson(String bookList_json_str) {
         try {
             ArrayList<BookVO> BookList = BookManager.getInstance().getItems();
@@ -89,7 +95,7 @@ public class BookTask extends AsyncTask<Void, Void, Void> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void initBookFromJson(String bookList_json_str) {
         try {
@@ -97,23 +103,24 @@ public class BookTask extends AsyncTask<Void, Void, Void> {
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObj = jsonArray.getJSONObject(i);
 
-                int mntID = jsonObj.getInt("mntID");
-                String mntName = jsonObj.getString("mntName");
-                int mntHeight = jsonObj.getInt("mntHeight");
-                String mntInfo = jsonObj.getString("mntInfo");
-                String mntPlace = jsonObj.getString("mntPlace");
-                double mntStar = jsonObj.getDouble("mntStar");
-                double mntLocX = jsonObj.getDouble("mntLocX");
-                double mntLocY = jsonObj.getDouble("mntLocY");
+                int bookID = jsonObj.getInt("bookID");
+                String bookName = jsonObj.getString("bookName");
+                String bookType = jsonObj.getString("bookType");
+                String bookInfo = jsonObj.getString("bookInfo");
+                int bookPage = jsonObj.getInt("bookPage");
+                int bookDate = jsonObj.getInt("bookDate");
+                String bookAuthor = jsonObj.getString("bookAuthor");
+                String bookPublisher = jsonObj.getString("bookPublisher");
+                double bookStar = jsonObj.getDouble("bookStar");
 
                 BookVO newItem = new BookVO();
-                newItem.setBook(mntID, mntName, mntHeight, mntInfo, mntPlace, (float)mntStar, mntLocX, mntLocY);
+                newItem.setBook(bookID, bookType, bookName, bookAuthor, bookPublisher, bookDate, bookPage, bookInfo, (float)bookStar);
 
-                String url_img = Constant.URL + "/basicImages/" + (i + 1) + ".jpg";
-                newItem.setThumbnail(BookManager.getInstance().getBookBitmapFromURL(url_img,"book" + (i + 1)));
+                String url_img = Constant.URL + "/cover/book_" + (i + 1) + ".jpg";
+                newItem.setImage(BookManager.getInstance().getBookBitmapFromURL(url_img,"book" + (i + 1)));
                 Log.d("mmee:bookTask", "get book resource " + (i + 1));
 
-                newItem.setClimb(false);
+                newItem.setRead(false);
 
                 // 임시 별점
                 // newItem.setGrade(new Random().nextFloat() * 5);
@@ -128,4 +135,6 @@ public class BookTask extends AsyncTask<Void, Void, Void> {
             e.printStackTrace();
         }
     }
+
+
 }
