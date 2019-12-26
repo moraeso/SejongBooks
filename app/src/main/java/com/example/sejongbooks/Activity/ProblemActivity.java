@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.IdRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.sejongbooks.Listener.AsyncCallback;
@@ -32,11 +33,12 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
     private BookVO m_book;
 
     private ImageView iv_problem;
-    private TextView tv_page;
+    private TextView tv_page, tv_score;
 
     private RadioGroup radioGroup;
 
     private Button prevBtn, nextBtn;
+    private Button submitBtn;
     private int page;
     private int selected;
 
@@ -66,13 +68,21 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
         tv_page = (TextView) findViewById(R.id.tv_page);
         tv_page.setText("1");
 
+        tv_score = (TextView) findViewById(R.id.tv_score);
+        tv_score.setVisibility(View.INVISIBLE);
+
         iv_problem = (ImageView) findViewById(R.id.iv_problem);
 
         prevBtn = (Button) findViewById(R.id.btn_prev);
         nextBtn = (Button) findViewById(R.id.btn_next);
+        submitBtn = (Button) findViewById(R.id.btn_submit);
+        submitBtn.setEnabled(false);
+        submitBtn.setBackgroundColor(ContextCompat.getColor(this, R.color.colorLightGray));
+
 
         prevBtn.setOnClickListener(this);
         nextBtn.setOnClickListener(this);
+        submitBtn.setOnClickListener(this);
 
         aryAnswer = new int[20];
         for (int i=0; i<20; i++) {
@@ -94,6 +104,18 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
                             selected = 4;
                         } else if (i == R.id.radio5) {
                             selected = 5;
+                        }
+
+                        boolean isEnd = true;
+                        for (int j=0; j<20; j++) {
+                            if (aryAnswer[j] == -1) {
+                                isEnd = false;
+                                break;
+                            }
+                        }
+                        if (isEnd) {
+                            submitBtn.setEnabled(true);
+                            submitBtn.setBackgroundColor(ContextCompat.getColor(context, R.color.colorMain));
                         }
                     }
                 };
@@ -141,6 +163,10 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
                     Glide.with(this).load(problemList.get(page - 1).getProblemImageString()).into(iv_problem);
                 }
                 break;
+
+            case R.id.btn_submit:
+                checkSubmit();
+                break;
         }
     }
 
@@ -163,6 +189,18 @@ public class ProblemActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
         problemTask.execute();
+    }
+
+    private void checkSubmit() {
+        int score = 0;
+        for (int i=0; i<20; i++) {
+            if (problemList.get(i).checkCorrect(aryAnswer[i])) {
+                score++;
+            }
+        }
+        tv_score.setVisibility(View.VISIBLE);
+        tv_score.setText(score + "/20");
+
     }
 
 

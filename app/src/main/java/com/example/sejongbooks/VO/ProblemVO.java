@@ -5,8 +5,8 @@ public class ProblemVO {
     private int yourAnswer;
     private int problemAnswer;
 
-    public final static int RIGHT = 1;
-    public final static int WRONG = 0;
+    public final static boolean RIGHT = true;
+    public final static boolean WRONG = false;
 
     public ProblemVO(String problemImageString, int problemAnswer){
         this.problemImageString = problemImageString;
@@ -24,7 +24,7 @@ public class ProblemVO {
     public void setProblemAnswer(int problemAnswer) {
         this.problemAnswer = problemAnswer;
     }
-    public int checkCorrect(int yourAnswer) {
+    public boolean checkCorrect(int yourAnswer) {
         this.yourAnswer = yourAnswer;
 
         if(problemAnswer < 10){
