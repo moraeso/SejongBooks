@@ -1,5 +1,5 @@
 # SejongBooks
-세종대학교 고전독서 정보 공유  안드로이드 어플리케이션
+세종대학교 고전독서 정보 공유 서비스 in Android(server-client)
 
 Screen Shot
 ------------
